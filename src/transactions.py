@@ -91,17 +91,38 @@ class TransactionHandler(DBHandler):
         transaction = Transaction(*row)
         self.insert(transaction)
     
-    def fetch_open_transactions(self):
-        query = "SELECT * FROM transactions WHERE sell_date IS NULL"
+    def fetch_open_transactions(self, after_buy_date="0000-00-00", before_buy_date="9999-99-99"):
+        query = f'''SELECT * FROM transactions
+                    WHERE sell_date IS NULL
+                    AND buy_date > "{after_buy_date}"
+                    AND buy_date < "{before_buy_date}"
+                    '''
+        print("query: ", query)
         return self.query_to_pandas(query).drop(["sell_date", "sell_price"], axis=1)
 
     def fetch_all_transactions(self):
         query = "SELECT * FROM transactions"
         return self.query_to_pandas(query)
 
-    def fetch_closed_transactions(self):
-        query = "SELECT * FROM transactions WHERE sell_date IS NOT NULL"
+    def fetch_closed_transactions(self, after_buy_date="0000-00-00", before_buy_date="9999-99-99"):
+        query = f'''SELECT * FROM transactions
+                    WHERE sell_date IS NOT NULL 
+                    AND buy_date > "{after_buy_date}"
+                    AND buy_date < "{before_buy_date}"
+                    '''
+
         return self.query_to_pandas(query)
+    
+    def fetch_open_between(self, start, end):
+        query = f'''SELECT * FROM transactions
+                    WHERE buy_date < "{end}"
+                    AND (sell_date > "{start}"
+                        OR sell_date IS NULL)
+                    '''
+
+        return self.query_to_pandas(query)
+
+
 
 if __name__ == "__main__":
     handler = TransactionHandler()
