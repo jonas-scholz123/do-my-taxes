@@ -1,4 +1,5 @@
 #%%
+from requests.sessions import session
 from transactions import TransactionHandler
 from forex_python.converter import CurrencyRates
 from functools import cache
@@ -11,6 +12,8 @@ import pandas as pd
 from collections import defaultdict
 import matplotlib.pyplot as plt
 from pprint import pprint
+import requests_cache
+import time
 
 class Portfolio:
     '''
@@ -23,6 +26,10 @@ class Portfolio:
     def __init__(self):
         self.transaction_handler = TransactionHandler()
         self.cr = CurrencyRates()
+        self.session = requests_cache.CachedSession('yfinance.cache')
+        self.session.headers['User-agent'] = 'my-program/1.0'
+        self.downloading = False
+
     
     def generate(self):
         '''
@@ -40,6 +47,7 @@ class Portfolio:
         self.df = self.transaction_handler.query_to_pandas(query)
         self.df.set_index("id", inplace=True)
         self.add_current_data()
+
 
     @cache 
     def get_rate(self, from_cur, to_cur):
@@ -73,7 +81,13 @@ class Portfolio:
         position values
         '''
         tickers = list(self.df["ticker"])
-        prices = yf.download(tickers, period="1d")["Open"].iloc[-1]
+        # Sometimes data is missing, take 10 last days, drop any missing data and take most recent
+
+        while self.downloading:
+            time.sleep(0.1)
+        self.downloading = True
+        prices = yf.download(tickers, period="10d", session=self.session)["Open"].dropna(how="any").iloc[-1]
+        self.downloading = False
         self.df["current_price"] = self.df["ticker"].map(prices) * self.df["exchange_rate"]
         self.df["current_value"] = self.df["current_price"] * self.df["quantity"]
         account_cur_to_gbp = self.df.account_currency.apply(self.get_rate, args=["GBP"]).astype(float)
@@ -193,7 +207,13 @@ class Portfolio:
 
         # 2. Make api call between start_date and end_date for all tickers, hold in df
         # Then multiply by exchange rate to have values in GBP
-        price_history = yf.download(tickers, start=start_date, end=end_date)["Open"].copy()
+
+        while self.downloading:
+            time.sleep(0.1)
+        self.downloading = True
+        price_history = yf.download(tickers, start=start_date, end=end_date, session=self.session)["Open"].copy()
+        self.downloading = False
+
         for ticker in tickers:
             currency = transactions[transactions["ticker"] == ticker].iloc[0]["investment_currency"]
             rate = self.get_rate(currency, "GBP")
@@ -260,16 +280,19 @@ class PortfolioHandler(DBHandler):
 
 
 
-portfolio = Portfolio()
-# portfolio.generate()
-#handler = PortfolioHandler()
-#handler.reset_table()
-#handler.create_table()
-#handler.insert_portfolio(portfolio)
-#cur = "GBP"
-#print(f"Portfolio value: {portfolio.value(cur)} {cur}")
-#portfolio.style()
-#print(portfolio.history("2018-01-01", "2021-07-01", columns="categories"))
-#portfolio.history("2018-01-01", "2021-07-01", columns="categories").to_json(orient="columns"))
-hist = portfolio.history("2018-01-02", "2020-01-03", groupby="category")
+if __name__ == "__main__":
+    portfolio = Portfolio()
+
+    for _ in range(3):
+        portfolio.generate()
+    #handler = PortfolioHandler()
+    #handler.reset_table()
+    #handler.create_table()
+    #handler.insert_portfolio(portfolio)
+    #cur = "GBP"
+    #print(f"Portfolio value: {portfolio.value(cur)} {cur}")
+    #portfolio.style()
+    #print(portfolio.history("2018-01-01", "2021-07-01", columns="categories"))
+    #portfolio.history("2018-01-01", "2021-07-01", columns="categories").to_json(orient="columns"))
+    #hist = portfolio.history("2018-01-02", "2020-01-03", groupby="category")
 # %%

@@ -1,76 +1,11 @@
 import { ResponsiveLine } from '@nivo/line'
 import React from 'react';
-import ClipLoader from "react-spinners/ClipLoader";
 
-class MyResponsiveLine extends React.Component { 
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            history: null,
-        }
-    }
-
-    convertTimestamp(timestamp) {
-        return new Date(timestamp).toISOString().substring(0, 10);
-    }
-
-    reshapeData(data) {
-        var newData = [];
-        for (const [category, catData] of Object.entries(data)) {
-            var lineDict = {"id": category};
-            var lineData = [];
-            for (const [x, y] of Object.entries(catData)) {
-                lineData.push({"x": this.convertTimestamp(parseInt(x)), "y": y})
-            }
-            lineDict["data"] = lineData;
-            newData.push(lineDict);
-        }
-        return newData;
-    }
-
-    componentDidMount() {
-        fetch(this.props.apiURL + "?start=2018-01-01&end=2021-06-01")
-        .then(res => res.json())
-        .then(
-        (result) => {
-            this.setState({
-            isLoaded: true,
-            history: result,
-            });
-        },
-
-        (error) => {
-            this.setState({
-            isLoaded: true,
-            error
-            })
-        }
-        )
-    }
-
-    render() {
-
-        const {error, isLoaded, history } = this.state;
-
-
-        if (error) {
-        return <div> Error; {error.message} </div>;
-        } else if (!isLoaded) {
-            return (
-                <div class="flex justify-center items-center">
-                    <ClipLoader loading={!isLoaded} size={150} />
-                </div>
-            )
-        }
-
-        let data = this.reshapeData(history)
+function AreaChart(props) { 
 
         return (
             <ResponsiveLine
-                data={data}
+                data={props.data}
                 margin={{ top: 50, right: 110, bottom: 50, left: 80 }}
                 xScale={{
                         type: "time",
@@ -102,7 +37,6 @@ class MyResponsiveLine extends React.Component {
                 enableArea={true}
                 areaOpacity={1}
                 useMesh={true}
-
                 sliceTooltip={({ slice }) => {
                     console.log(slice.points[0].data.xFormatted)
                     return (
@@ -152,6 +86,5 @@ class MyResponsiveLine extends React.Component {
             />
         )
     }
-}
 
-export default MyResponsiveLine;
+export default AreaChart;
