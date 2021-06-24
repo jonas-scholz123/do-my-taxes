@@ -1,5 +1,6 @@
 import { ResponsiveLine } from '@nivo/line'
 import React from 'react';
+import ClipLoader from "react-spinners/ClipLoader";
 
 class MyResponsiveLine extends React.Component { 
 
@@ -27,7 +28,6 @@ class MyResponsiveLine extends React.Component {
             lineDict["data"] = lineData;
             newData.push(lineDict);
         }
-        console.log("NEW DATA: ", newData)
         return newData;
     }
 
@@ -55,10 +55,15 @@ class MyResponsiveLine extends React.Component {
 
         const {error, isLoaded, history } = this.state;
 
+
         if (error) {
         return <div> Error; {error.message} </div>;
         } else if (!isLoaded) {
-        return <div> Loading... </div>
+            return (
+                <div class="flex justify-center items-center">
+                    <ClipLoader loading={!isLoaded} size={150} />
+                </div>
+            )
         }
 
         let data = this.reshapeData(history)

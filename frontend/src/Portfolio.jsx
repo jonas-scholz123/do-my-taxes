@@ -13,7 +13,7 @@ export default function Portfolio() {
         <div class="w-10/12">
           <p class="text-5xl font-bold p-6">Your Portfolio</p>
 
-            <div class="h-96 w-full">
+            <div class="h-96 flex justify-center items-center">
                 <AreaChart
                   apiURL= "http://localhost:5000/api/portfolio/history"
                 />

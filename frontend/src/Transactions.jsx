@@ -5,6 +5,7 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HighlightedTitle from "./components/HighlightedTitle";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Transactions() {
   return (
@@ -83,7 +84,11 @@ class ClosedTransactionsTable extends React.Component {
     if (error) {
       return <div> Error; {error.message} </div>;
     } else if (!isLoaded) {
-      return <div> Loading... </div>
+      return (
+        <div>
+          <ClipLoader loading={!isLoaded} size={150} />
+        </div>
+      )
     } else {
 
         const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
