@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from "./components/Button.js";
-import Table from "./components/Table.js";
-import Modal from "./components/Modal.js";
-import Header from "./components/Header.js";
-import Footer from "./components/Footer.js";
-import HighlightedTitle from "./components/HighlightedTitle.js";
+import Button from "./components/Button";
+import Table from "./components/Table";
+import Modal from "./components/Modal";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import HighlightedTitle from "./components/HighlightedTitle";
 
 function Transactions() {
   return (

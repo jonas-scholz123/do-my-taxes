@@ -1,9 +1,9 @@
 import React from 'react';
-import Button from "./components/Button.js";
-import Header from "./components/Header.js";
-import Footer from "./components/Footer.js";
-import BarChart from "./components/BarChart.js";
-import AreaChart from './components/AreaChart.js';
+import Button from "./components/Button";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import BarChart from "./components/BarChart";
+import AreaChart from './components/AreaChart';
 
 export default function Portfolio() {
   return (

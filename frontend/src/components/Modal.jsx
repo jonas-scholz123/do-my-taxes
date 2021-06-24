@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, Transition } from '@headlessui/react'
-import Button from "./Button.js";
+import Button from "./Button";
 import { Fragment} from 'react'
 export default function Modal(props) {
   //const [open, setOpen] = useState(true)

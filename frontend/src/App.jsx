@@ -1,6 +1,6 @@
 import React from 'react';
-import Transactions from "./Transactions.js";
-import Portfolio from "./Portfolio.js";
+import Transactions from "./Transactions";
+import Portfolio from "./Portfolio";
 
 import {
   BrowserRouter as Router,
