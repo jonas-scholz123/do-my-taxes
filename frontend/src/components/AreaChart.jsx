@@ -6,20 +6,21 @@ function AreaChart(props) {
         return (
             <ResponsiveLine
                 data={props.data}
-                margin={{ top: 50, right: 110, bottom: 50, left: 80 }}
+                margin={{ top: 50, right: 0, bottom: 35, left: 80 }}
                 xScale={{
                         type: "time",
                         format: "%Y-%m-%d"
                         }}
                 xFormat="time:%Y-%m-%d"
-                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                yScale={{ type: 'linear', min: 0, max: 'auto', stacked: true, reverse: false }}
                 yFormat=" >-.2f"
                 axisTop={null}
                 axisRight={null}
                 enableSlices={"x"}
                 axisBottom={{
                     format: "%b %d",
-                    legendOffset: -12
+                    legendOffset: -12,
+                    tickValues: 5
                   }}
                 axisLeft={{
                     orient: 'left',
@@ -38,7 +39,6 @@ function AreaChart(props) {
                 areaOpacity={1}
                 useMesh={true}
                 sliceTooltip={({ slice }) => {
-                    console.log(slice.points[0].data.xFormatted)
                     return (
                         <div class="p-3 border bg-white rounded-md grid">
                             <div class="font-semibold pb-2">Date: {slice.points[0].data.xFormatted} </div>
@@ -56,10 +56,10 @@ function AreaChart(props) {
                         </div>
                     )
                 }}
-
+                /*
                 legends={[
                     {
-                        anchor: 'bottom-right',
+                        anchor: 'top-left',
                         direction: 'column',
                         justify: false,
                         translateX: 100,
@@ -82,7 +82,7 @@ function AreaChart(props) {
                             }
                         ]
                     }
-                ]}
+                ]} */
             />
         )
     }
