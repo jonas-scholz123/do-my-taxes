@@ -13,11 +13,9 @@ export default function Portfolio() {
       <div class="flex justify-center">
         <div class="w-10/12">
           <p class="text-5xl font-bold p-6">Your Portfolio</p>
-            <div class="h-96 flex justify-center items-center">
                 <HistoryBrowser
                   apiURL= "http://localhost:5000/api/portfolio/history"
                 />
-            </div>
             <div>
                 <PortfolioTable
                   apiURL="http://localhost:5000/api/portfolio/snapshot/now"
