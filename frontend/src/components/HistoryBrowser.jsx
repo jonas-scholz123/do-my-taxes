@@ -46,8 +46,7 @@ class HistoryBrowser extends React.Component {
     }
 
     loadFromAPI() {
-        const fromStr = this.state.from === "earliest" ? "earliest" : this.dateISO(this.state.from);
-        fetch(this.props.apiURL + `?start=${fromStr}&end=${this.dateISO(this.state.to)}`)
+        fetch(this.props.apiURL)
         .then(res => res.json())
         .then(
         (result) => {

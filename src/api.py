@@ -30,10 +30,10 @@ def get_closed_transactions():
 @app.route('/api/portfolio/history', methods=["GET"])
 @cross_origin()
 def get_portfolio_history():
-    start = request.args.get("start")
-    end = request.args.get("end")
-    print(f"fetching from {start} to {end}")
-    df = portfolio.history(start, end, groupby="category").round(2)
+    #start = request.args.get("start")
+    #end = request.args.get("end")
+    #print(f"fetching from {start} to {end}")
+    df = portfolio.history(None, None, groupby="category").round(2)
     # for speed, limit to ~500 rows
     # n = max(1, int(df.shape[0]/500))
     # df = df.iloc[::n, :]

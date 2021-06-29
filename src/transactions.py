@@ -121,7 +121,10 @@ class TransactionHandler(DBHandler):
                     '''
 
         return self.query_to_pandas(query)
-
+    
+    def fetch_earliest_transaction_date(self):
+        query = "SELECT MIN(buy_date) FROM transactions"
+        return self.cursor.execute(query).fetchall()[0][0]
 
 
 if __name__ == "__main__":

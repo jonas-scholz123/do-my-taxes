@@ -7,7 +7,7 @@ import config
 import yfinance as yf
 import timeit
 from utils import DBHandler
-from datetime import datetime
+from datetime import date, datetime, timedelta
 import pandas as pd
 from collections import defaultdict
 import matplotlib.pyplot as plt
@@ -200,6 +200,13 @@ class Portfolio:
 
         #TODO: validate that at least 7 days, or handle errors, because weekend -> no data
 
+        if start_date is None:
+            start_date = self.transaction_handler.fetch_earliest_transaction_date()
+        
+        if end_date is None:
+            tomorrow = datetime.now() + timedelta(days=1)
+            end_date = tomorrow.date().isoformat()
+
         # 1. Get a list of all tickers ever held between start_date and end_date
         transactions = self.transaction_handler.fetch_open_between(start_date, end_date)
         tickers = list(transactions["ticker"].unique())
@@ -232,6 +239,7 @@ class Portfolio:
 
         # 4. Multiply values in df by quantity by the dict created in 3
         value_history = self._price_history_to_value_history(price_history, quantities)
+        print(value_history)
 
         # fill missing data from api
         value_history.fillna(method="ffill", inplace=True)
@@ -283,8 +291,8 @@ class PortfolioHandler(DBHandler):
 if __name__ == "__main__":
     portfolio = Portfolio()
 
-    for _ in range(3):
-        portfolio.generate()
+    #for _ in range(3):
+        #portfolio.generate()
     #handler = PortfolioHandler()
     #handler.reset_table()
     #handler.create_table()
@@ -294,5 +302,5 @@ if __name__ == "__main__":
     #portfolio.style()
     #print(portfolio.history("2018-01-01", "2021-07-01", columns="categories"))
     #portfolio.history("2018-01-01", "2021-07-01", columns="categories").to_json(orient="columns"))
-    #hist = portfolio.history("2018-01-02", "2020-01-03", groupby="category")
+    hist = portfolio.history(None, None, groupby="ticker")
 # %%
