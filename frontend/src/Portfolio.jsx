@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from "./components/Button";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import BarChart from "./components/BarChart";
 import HistoryBrowser from './components/HistoryBrowser';
 import PortfolioTable from './components/PortfolioTable';

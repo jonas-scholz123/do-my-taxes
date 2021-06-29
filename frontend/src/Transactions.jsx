@@ -3,7 +3,6 @@ import Button from "./components/Button";
 import Table from "./components/Table";
 import Modal from "./components/Modal";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import HighlightedTitle from "./components/HighlightedTitle";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -15,7 +14,7 @@ function Transactions() {
         <div class="w-10/12">
           <p class="text-5xl font-bold p-6">Your Transactions</p>
           <div class="flex justify-between items-center">
-            <HighlightedTitle text="Open Transactions" style="bg-green-200"/>
+            <HighlightedTitle text="Open Transactions" classes="bg-green-200"/>
           </div>
           <div class="flex justify-center">
             <OpenTransactionsTable
@@ -23,7 +22,7 @@ function Transactions() {
             />
           </div>
           <div class="flex justify-between items-center">
-            <HighlightedTitle text="Closed Transactions" style="bg-red-200"/>
+            <HighlightedTitle text="Closed Transactions" classes="bg-red-200"/>
           </div>
           <div class="flex justify-center">
             <ClosedTransactionsTable

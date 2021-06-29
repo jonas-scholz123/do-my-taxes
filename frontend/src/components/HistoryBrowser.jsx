@@ -94,7 +94,7 @@ class HistoryBrowser extends React.Component {
     getShownData() {
         var data;
         const history = this.state.history;
-        if (this.state.from != "earliest") {
+        if (this.state.from !== "earliest") {
             const truncationIndex = d3.bisectLeft(history[0]["data"].map(e => e.x), this.dateISO(this.state.from));
             data = this.truncateData(history, truncationIndex);
             console.log(this.state.from)

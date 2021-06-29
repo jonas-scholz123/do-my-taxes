@@ -2,10 +2,6 @@ import React from 'react';
 
 class Button extends React.Component {
 
-  constructor(props){
-    super(props)
-  }
-
   render() {
     var classes = "border py-2 px-4 ";
 
@@ -16,7 +12,6 @@ class Button extends React.Component {
     if (this.props.active && this.props.activeClasses) {
       classes += this.props.activeClasses;
     }
-    console.log(classes)
 
       return (
           <button

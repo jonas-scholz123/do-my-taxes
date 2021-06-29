@@ -2,7 +2,6 @@ import { ResponsiveLine } from '@nivo/line'
 import React from 'react';
 
 function AreaChart(props) { 
-
         return (
             <ResponsiveLine
                 data={props.data}
@@ -61,33 +60,44 @@ function AreaChart(props) {
                         </div>
                     )
                 }}
-                /*
-                legends={[
+
+                defs={[
                     {
-                        anchor: 'top-left',
-                        direction: 'column',
-                        justify: false,
-                        translateX: 100,
-                        translateY: 0,
-                        itemsSpacing: 0,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'circle',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1
-                                }
-                            }
-                        ]
+                        id: 'dots',
+                        type: 'patternDots',
+                        background: 'inherit',
+                        color: '#38bcb2',
+                        size: 4,
+                        padding: 1,
+                        stagger: true
+                    },
+                    {
+                        id: 'lines',
+                        type: 'patternLines',
+                        background: 'inherit',
+                        color: '#eed312',
+                        rotation: -45,
+                        lineWidth: 6,
+                        spacing: 10
+                    },
+                    {
+                        id: 'blueLines',
+                        type: 'patternLines',
+                        background: 'inherit',
+                        color: '#ffffff',
+                        rotation: -45,
+                        lineWidth: 6,
+                        spacing: 10
                     }
-                ]} */
+                ]}
+                fill={[
+                    {
+                        match: {
+                            id: props.data[2].id
+                        },
+                        id: 'lines'
+                    },
+                ]}
             />
         )
     }
