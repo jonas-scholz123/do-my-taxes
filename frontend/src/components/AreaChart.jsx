@@ -39,6 +39,8 @@ function AreaChart(props) {
                 areaOpacity={1}
                 useMesh={true}
                 sliceTooltip={({ slice }) => {
+                    const sum = slice.points.map( (p) => p.data.y).reduce((a, b) => a + b, 0).toFixed(2)
+
                     return (
                         <div class="p-3 border bg-white rounded-md grid">
                             <div class="font-semibold pb-2">Date: {slice.points[0].data.xFormatted} </div>
@@ -47,12 +49,15 @@ function AreaChart(props) {
                                     key={point.id}
                                     style={{
                                         color: point.serieColor,
-                                        padding: '3px 0',
                                     }}
+                                    class="pb-2 flex justify-between"
                                 >
-                                    <strong>{point.serieId}</strong> £{point.data.yFormatted} 
+                                    <strong class="px-3">{point.serieId}</strong> £{point.data.yFormatted} 
                                 </div>
-                            ))}
+                                ))}
+                            <div class="border-t border-black py-2 flex justify-between">
+                                <strong class="px-3"> Total </strong> £{sum}
+                            </div>
                         </div>
                     )
                 }}
