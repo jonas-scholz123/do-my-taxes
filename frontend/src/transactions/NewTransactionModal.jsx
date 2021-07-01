@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from "./Button";
-import Modal from "./Modal";
+import Button from "../components/Button";
+import Modal from "../components/Modal";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {InputField, TextInput, NumberInput, OptionSelect} from './FormElements';
+import {InputField, TextInput, NumberInput, OptionSelect} from '../components/FormElements';
 
 const NewTransactionForm = () => (
   <Formik

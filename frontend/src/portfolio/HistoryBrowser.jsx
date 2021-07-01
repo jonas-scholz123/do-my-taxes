@@ -1,7 +1,7 @@
 import React from 'react';
 import AreaChart from './AreaChart'
-import Button from './BaseButton';
-import LoadingOrError from './LoadingOrError';
+import Button from '../components/BaseButton';
+import LoadingOrError from '../components/LoadingOrError';
 const d3 = require('d3-array'); 
 
 

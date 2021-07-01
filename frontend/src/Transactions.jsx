@@ -2,7 +2,7 @@ import React from 'react';
 import Button from "./components/Button";
 import ShowMoreButton from './components/ShowMoreButton';
 import Table from "./components/Table";
-import Modal from "./components/NewTransactionModal";
+import Modal from "./transactions/NewTransactionModal";
 import Header from "./components/Header";
 import HighlightedTitle from "./components/HighlightedTitle";
 import ClipLoader from "react-spinners/ClipLoader";

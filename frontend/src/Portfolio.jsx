@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from "./components/Header";
-import BarChart from "./components/BarChart";
-import HistoryBrowser from './components/HistoryBrowser';
-import PortfolioTable from './components/PortfolioTable';
+import BarChart from "./portfolio/BarChart";
+import HistoryBrowser from './portfolio/HistoryBrowser';
+import PortfolioTable from './portfolio/PortfolioTable';
 
 export default function Portfolio() {
   return (
