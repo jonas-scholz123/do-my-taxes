@@ -1,12 +1,17 @@
 import React from 'react';
 
 function Button (props) {
-
     if (props.main) {
       return (
           <button
             class="bg-indigo-700 border border-indigo-500 hover:bg-indigo-500 text-white py-2 px-4 rounded-md"
-            onClick={() => props.handleClick()}>{props.text}</button>
+            onClick={props.handleClick !== null ? () => props.handleClick() : () => {}}
+            type={props.type}
+            form={props.form}
+          >
+            {props.text}
+            
+          </button>
       );
     }
 
