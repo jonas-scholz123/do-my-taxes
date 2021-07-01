@@ -1,15 +1,10 @@
 import React from 'react';
-import { Dialog, Transition } from '@headlessui/react'
-import Button from "./Button";
-import { Fragment} from 'react'
-export default function Modal(props) {
-  //const [open, setOpen] = useState(true)
+import { Fragment} from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 
+export default function Modal(props) {
   const open = props.open
   const setOpen = props.setOpen
-
-  console.log("open, setOpen:")
-  console.log(open, setOpen)
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -48,30 +43,21 @@ export default function Modal(props) {
           >
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
+                <div className="items-start">
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                      Add Transaction
+                    <Dialog.Title as="h2" className="text-2xl leading-6 font-medium text-gray-900 pb-3">
+                      {props.title}
                     </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                          Form here
+                    <div className="mt-2 flex justify-center">
+                      <p className="text-sm text-gray-500 w-11/12">
+                        {props.mainContent}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-
-                {/*TODO: add handleNewTransaction as param*/}
-                <div class="px-2">
-                    <Button main={true} text="Add Transaction" handleClick={() => setOpen(false)}/>
-                </div>
-
-                <div class="px-2">
-                    <Button text="Cancel" handleClick={() => setOpen(false)}/>
-                </div>
-
+                {props.footerContent}
               </div>
             </div>
           </Transition.Child>
