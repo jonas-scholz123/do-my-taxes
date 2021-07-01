@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from "./components/Button";
+import ShowMoreButton from './components/ShowMoreButton';
 import Table from "./components/Table";
-import Modal from "./components/Modal";
+import Modal from "./components/NewTransactionModal";
 import Header from "./components/Header";
 import HighlightedTitle from "./components/HighlightedTitle";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -104,10 +105,7 @@ class ClosedTransactionsTable extends React.Component {
                 </div>
 
                 <div class="py-6 flex justify-center">
-                    <Button
-                        text="Show More"
-                        handleClick={() => this.handleShowMore()}
-                    />
+                  <ShowMoreButton onClick={() => this.handleShowMore()}/>
                 </div>
             </div>
         )
@@ -185,16 +183,13 @@ class OpenTransactionsTable extends React.Component {
                 </div>
 
                 <div class="py-6 flex">
+                  <div class="w-1/3"/>
                   <div class="w-1/3">
-
+                    <div class="flex justify-center">
+                      <ShowMoreButton onClick={() => this.handleShowMore()} />
+                    </div>
                   </div>
-                  <div class="w-1/3 flex justify-center">
-                    <Button
-                        text="Show More"
-                        handleClick={() => this.handleShowMore()}
-                    />
-                  </div>
-                  <div class="w-1/3 flex justify-end">
+                  <div class="w-1/3 h-12 flex justify-end">
                     <Button
                         text="Add Transaction"
                         main={true}
