@@ -130,6 +130,10 @@ class OpenTransactionsTable extends React.Component {
   }
 
   componentDidMount() {
+    this.loadTransactions()
+  }
+
+  loadTransactions() {
     fetch(this.props.apiURL)
     .then(res => res.json())
     .then(
@@ -170,7 +174,7 @@ class OpenTransactionsTable extends React.Component {
     } else {
 
         const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
-        const content = transactions.map(t => Object.values(t))
+        const content = transactions.map(t => Object.values(t)).reverse()
 
         return (
             <div class="w-full">
@@ -199,6 +203,7 @@ class OpenTransactionsTable extends React.Component {
                     <Modal
                       open={this.state.modalOpen}
                       setOpen={(bool) => this.setModalOpen(bool)}
+                      loadTransactions={() => this.loadTransactions()}
                     />
                 </div>
             </div>

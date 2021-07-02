@@ -1,10 +1,11 @@
 import React from 'react';
+import axios from 'axios';
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {InputField, TextInput, NumberInput, OptionSelect} from '../components/FormElements';
 
-const NewTransactionForm = () => (
+const NewTransactionForm = (props) => (
   <Formik
     initialValues={{
       depot: "Depot 1",
@@ -14,10 +15,11 @@ const NewTransactionForm = () => (
       account_currency: "",
       investment_currency: "",
       quantity: "",
-      price: "",
+      buy_price: "",
       buy_date: "",
     }}
     validateOnChange={false}
+    validateOnBlur={false}
     validate={values => {
       const errors = {};
       Object.keys(values).forEach((key) => {
@@ -28,10 +30,27 @@ const NewTransactionForm = () => (
       console.log("ERRORS: ", errors);
       return errors;
     }}
-    onSubmit={(values, { setSubmitting }) => {
-      console.log("SUBMITTING")
+    onSubmit={(values, { setSubmitting, setFieldError }) => {
       setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+        //alert(JSON.stringify(values, null, 2));
+        axios.post('http://localhost:5000/api/transactions/add', {
+          values
+        })
+        .then(function (response) {
+          props.setOpen(false)
+          props.loadTransactions()
+        })
+        .catch(function (error) {
+          if (error.response) {
+            const errors = error.response.data.errors
+            console.log("ERRORS: ", errors)
+            for (const [field, message] of Object.entries(errors)) {
+              setFieldError(field, message)
+            }
+          }
+          
+        });
+
         setSubmitting(false);
       }, 400);
     }}
@@ -61,7 +80,7 @@ const NewTransactionForm = () => (
         </div>
         <div class="flex justify-between">
           <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-2/3" step="any" />
-          <Field as={NumberInput} name="price" title="Price" classes="w-2/3" min="0" step="any" />
+          <Field as={NumberInput} name="buy_price" title="Price" classes="w-2/3" min="0" step="any" />
         </div>
         <Field as={InputField} name="buy_date" title="Buy Date" type="date" />
       </Form>
@@ -85,7 +104,11 @@ export default function NewTransactionModal(props) {
   return (
     <Modal
       title="Add Transaction" 
-      mainContent={<NewTransactionForm/>}
+      mainContent={
+        <NewTransactionForm
+          setOpen={(bool) => props.setOpen(bool)}
+          loadTransactions={() => props.loadTransactions()}
+        />}
       footerContent={footerContent}
       {...props}
     />
