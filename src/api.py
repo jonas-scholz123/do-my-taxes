@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from werkzeug.exceptions import MethodNotAllowed
 
-from transactions import TransactionHandler
+from transactions import TransactionHandler, Transaction
 from portfolio import Portfolio
 
 transaction_handler = TransactionHandler()
@@ -40,13 +40,27 @@ def get_portfolio_history():
     return df.to_json(orient="columns")
 
 @app.route('/api/portfolio/snapshot/now', methods=["GET"])
-@cross_origin()
+@cross_origin(supports_credentials=True)
 def get_current_portfolio():
     portfolio.generate()
     df = portfolio.df.copy()
     df.drop(["depot", "account_currency", "buy_value", "exchange_rate", "current_price", "current_value"], axis=1, inplace=True)
     df.sort_values("current_value_gbp", inplace=True, ascending=False)
     return df.round(2).to_json(orient="records")
+
+@app.route('/api/transactions/add', methods=["GET", "POST"])
+@cross_origin()
+def create_transaction():
+    transaction = Transaction(**request.json["values"])
+    print("NEW TRANSACTION: ", transaction)
+    print("BUY DATE: ", transaction.buy_date)
+
+    if transaction.valid:
+        transaction_handler.insert_valid_transaction(transaction)
+        return jsonify({'transaction': request.json}), 201
+    # Unprocessable entity => 422
+    return jsonify({'errors': transaction.errors, 'transaction': request.json}), 422
+
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)

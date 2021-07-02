@@ -7,6 +7,7 @@ from datetime import datetime
 from dataclasses import dataclass, fields, astuple
 import config
 from utils import DBHandler
+import yfinance as yf
 
 @dataclass
 class Transaction:
@@ -18,28 +19,52 @@ class Transaction:
     account_currency: str
     investment_currency: str
     buy_price: float
-    sell_price: float
     buy_date: str
-    sell_date: str
+    sell_price: float = None
+    sell_date: str = None
 
     def __post_init__(self):
-        self.valid = False
+        self.currency_codes = set(pd.read_csv(config.paths["currency_codes"])["id"])
+
+        self.errors = {}
         self.validate()
 
     def validate(self):
         valid = True
         valid = self.date_is_valid(self.buy_date)
+        valid = valid and self.ticker_is_valid()
+
         if self.sell_date:
             valid = valid and self.date_is_valid(self.sell_date)
-        self.valid = valid
 
+        valid = self.currency_is_valid(self.investment_currency, "investment_currency") and valid
+        valid = self.currency_is_valid(self.account_currency, "account_currency") and valid
+
+        self.valid = valid
+    
     def date_is_valid(self, date):
         try:
             datetime.strptime(date, "%Y-%m-%d")
             return True
         except:
             print("Date is invalid: ", date)
+            self.errors["date"] = "invalid"
             return False
+    
+    def ticker_is_valid(self):
+        invalid = yf.download(self.ticker).empty
+        if invalid:
+            self.errors["ticker"] = "Not a valid ticker. Please only use Yahoo finance tickers."
+        return not invalid
+
+    def currency_is_valid(self, currency, name):
+        print("CHECKING: ", currency, name)
+        valid = currency in self.currency_codes
+        if not valid:
+            self.errors[name] = "Invalid currency."
+        return valid
+
+
 
 class TransactionHandler(DBHandler):
 
@@ -76,7 +101,7 @@ class TransactionHandler(DBHandler):
     def insert_valid_transaction(self, transaction: Transaction):
         insert_sql = ''' INSERT INTO transactions (depot, name, ticker, category,
                                                    quantity, account_currency, investment_currency, 
-                                                   buy_price, sell_price, buy_date, sell_date)
+                                                   buy_price, buy_date, sell_price, sell_date)
                          VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
         self.cursor.execute(insert_sql, astuple(transaction))
     
