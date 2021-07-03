@@ -3,12 +3,18 @@ import React from 'react';
 class Table extends React.Component {
   render() {
 
-    const headerElements = this.props.headers.map(
-      (element) => <TableHeaderElement text={element}/>
-    )
+    const headerElements = Object.keys(this.props.content[0])
+          .map(el => <TableHeaderElement text={el.replaceAll("_", " ")}/>)
 
+    console.log("ONCLICK: ", this.props.onClick, typeof(this.props.onClick))
     let rows = this.props.content.map(
-      (rowContent) => <TableRow elements={rowContent} />
+      (record) =>
+      <TableRow
+        elements={Object.values(record)}
+        id={record[this.props.keyHeader]}
+        onClick={(id) => this.props.onClick(id)}
+        {...this.props}
+      />
     )
     
     if (this.props.nrRows) {
@@ -40,10 +46,12 @@ class Table extends React.Component {
 
 function TableRow(props) {
   const elements = props.elements.map((element) => 
-    {return <TableRowElement text={element}/>}
+    <TableRowElement text={element}/>
   )
+
+  const classes = props.clickable ? "hover:bg-gray-100 cursor-pointer" : ""
   return (
-    <tr> {elements} </tr>
+    <tr class={classes} key={props.id} onClick={() => props.onClick(props.id)}> {elements} </tr>
   )
 }
 

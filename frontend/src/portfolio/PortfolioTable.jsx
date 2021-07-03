@@ -50,15 +50,11 @@ class PortfolioTable extends React.Component {
             )
         }
   
-          const headers = Object.keys(data[0]).map(h => h.replaceAll("_", " "));
-          const content = data.map(t => Object.values(t))
-  
           return (
               <div class="w-full">
                   <div class="w-full justify-center">
                       <Table
-                          headers={headers}
-                          content={content}
+                          content={data}
                           />
                   </div>
               </div>

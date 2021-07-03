@@ -6,6 +6,10 @@ import Modal from "./transactions/NewTransactionModal";
 import Header from "./components/Header";
 import HighlightedTitle from "./components/HighlightedTitle";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router"
+
+
 
 function Transactions() {
   return (
@@ -77,9 +81,20 @@ class ClosedTransactionsTable extends React.Component {
     }));
   }
 
+  handleRowClick(id) {
+    this.setState({
+      navigate: true,
+      navigateTo: id.toString()
+    })
+  }
+
   render() {
 
-    const {error, isLoaded, transactions } = this.state;
+    const {navigateTo, navigate, error, isLoaded, transactions } = this.state;
+
+    if (navigate) {
+      return <Navigate to={navigateTo} push={true}/>
+    }
 
     if (error) {
       return <div> Error; {error.message} </div>;
@@ -90,17 +105,15 @@ class ClosedTransactionsTable extends React.Component {
         </div>
       )
     } else {
-
-        const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
-        const content = transactions.map(t => Object.values(t))
-
         return (
             <div class="w-full">
                 <div class="w-full justify-center">
                     <Table
-                        headers={headers}
-                        content={content}
+                        content={transactions}
                         nrRows={this.state.nrRows}
+                        clickable={true}
+                        keyHeader="id"
+                        onClick={(id) => this.handleRowClick(id)}
                         />
                 </div>
 
@@ -126,11 +139,20 @@ class OpenTransactionsTable extends React.Component {
       transactions: [],
       nrRows: 10,
       modalOpen: false,
+      navigate: false,
+      navigateTo: ""
     };
   }
 
   componentDidMount() {
     this.loadTransactions()
+  }
+
+  handleRowClick(id) {
+    this.setState({
+      navigate: true,
+      navigateTo: id.toString()
+    })
   }
 
   loadTransactions() {
@@ -165,7 +187,11 @@ class OpenTransactionsTable extends React.Component {
 
   render() {
 
-    const {error, isLoaded, transactions } = this.state;
+    const {navigateTo, navigate, error, isLoaded, transactions } = this.state;
+
+    if (navigate) {
+      return <Navigate to={navigateTo} push={true}/>
+    }
 
     if (error) {
       return <div> Error; {error.message} </div>;
@@ -173,16 +199,18 @@ class OpenTransactionsTable extends React.Component {
       return <div> Loading... </div>
     } else {
 
-        const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
-        const content = transactions.map(t => Object.values(t)).reverse()
+        //const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
+        //const content = transactions.map(t => Object.values(t)).reverse()
 
         return (
             <div class="w-full">
                 <div class="w-full justify-center">
                     <Table
-                        headers={headers}
-                        content={content}
+                        content={transactions}
                         nrRows={this.state.nrRows}
+                        keyHeader="id"
+                        clickable={true}
+                        onClick={(id) => this.handleRowClick(id)}
                         />
                 </div>
 
