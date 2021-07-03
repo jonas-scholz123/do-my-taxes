@@ -14,7 +14,7 @@ class Header extends React.Component {
 
     const pageButtons = pages.map(
       //page => <a href="#" class= {page === active_page ? active_class : inactive_class}> {page} </a>
-      page => <Link to={page.toLowerCase()} class={page === activePage ? activeClass : inactiveClass}> {page} </Link>
+      page => <Link to={"/" + page.toLowerCase()} class={page === activePage ? activeClass : inactiveClass}> {page} </Link>
     );
 
 
