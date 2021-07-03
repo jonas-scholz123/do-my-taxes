@@ -239,7 +239,6 @@ class Portfolio:
 
         # 4. Multiply values in df by quantity by the dict created in 3
         value_history = self._price_history_to_value_history(price_history, quantities)
-        print(value_history)
 
         # fill missing data from api
         value_history.fillna(method="ffill", inplace=True)
