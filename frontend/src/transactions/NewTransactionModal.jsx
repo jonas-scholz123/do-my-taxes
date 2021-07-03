@@ -27,7 +27,6 @@ const NewTransactionForm = (props) => (
           errors[key] = "Required";
         }
       })
-      console.log("ERRORS: ", errors);
       return errors;
     }}
     onSubmit={(values, { setSubmitting, setFieldError }) => {
@@ -43,7 +42,6 @@ const NewTransactionForm = (props) => (
         .catch(function (error) {
           if (error.response) {
             const errors = error.response.data.errors
-            console.log("ERRORS: ", errors)
             for (const [field, message] of Object.entries(errors)) {
               setFieldError(field, message)
             }
@@ -56,6 +54,13 @@ const NewTransactionForm = (props) => (
     }}
   >
     {({ isSubmitting }) => (
+      <TransactionFormContent/>
+    )}
+  </Formik>
+  )
+
+export const TransactionFormContent = () => {
+  return (
       <Form id="new-transaction">
         <Field
           as={OptionSelect}
@@ -75,18 +80,17 @@ const NewTransactionForm = (props) => (
         />
 
         <div class="flex justify-between">
-          <Field as={TextInput} name="account_currency" title="Account Currency" />
+          <Field as={TextInput} name="account_currency" title="Account Currency"/>
           <Field as={TextInput} name="investment_currency" title="Investment Currency" />
         </div>
         <div class="flex justify-between">
-          <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-2/3" step="any" />
-          <Field as={NumberInput} name="buy_price" title="Price" classes="w-2/3" min="0" step="any" />
+          <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-full" step="any" />
+          <Field as={NumberInput} name="buy_price" title="Price" classes="w-full" min="0" step="any" />
         </div>
         <Field as={InputField} name="buy_date" title="Buy Date" type="date" />
       </Form>
-    )}
-  </Formik>
   )
+}
 
 export default function NewTransactionModal(props) {
 
