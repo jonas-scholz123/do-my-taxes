@@ -1,29 +1,29 @@
 import React from 'react';
 import Transactions from "./Transactions";
+import SingleTransaction from './SingleTransaction';
 import Portfolio from "./Portfolio";
 
 import {
-  BrowserRouter as Router,
-  Switch,
+  BrowserRouter,
   Route,
+  Routes,
 } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div>
-        <Switch>
+        <Routes>
           <Route path="/transactions">
-            <Transactions />
+            <Route path="/" element={<Transactions />} />
+            <Route path="/:transactionId" element={<SingleTransaction />} />
+
           </Route>
 
-          <Route path="/portfolio">
-            <Portfolio />
-          </Route>
-
-        </Switch>
+          <Route path="/portfolio" element={<Portfolio />} />
+        </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
