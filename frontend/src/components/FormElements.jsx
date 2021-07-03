@@ -4,7 +4,6 @@ export function TextInput(props) {
   return (
     <InputField
       type="text"
-      classes="w-full"
       {...props}
     />
   )
@@ -21,17 +20,25 @@ export function NumberInput(props) {
 
 export function InputField(props){
 
-  const classes = `appearance-none block bg-gray-100 text-gray-700
+  const classes = props.classes + ` appearance-none block bg-gray-100 text-gray-700
                         border border-indigo-500 rounded py-3 px-4 leading-tight
-                        focus:outline-none focus:bg-white ` + props.classes
-
+                        focus:outline-none focus:bg-white ` 
+  
   return (
     <label>
       <div class="block uppercase text-xs font-bold mb-2 flex">
         {props.title}
       </div>
       <div class="mb-3">
-        <input class={classes} {...props}/>
+        <div class="flex items-center">
+          <div>
+            {/* set size to something large because it overwrites width*/}
+            <input class={classes} {...props}/>
+          </div>
+          <div class="font-semibold">
+            {props.suffix}
+          </div>
+        </div>
         <ErrorMessage name={props.name} component="div" class="text-xs text-red-500 italic mt-2"/>
       </div>
     </label>
