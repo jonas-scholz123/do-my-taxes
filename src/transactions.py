@@ -4,10 +4,12 @@ import sqlite3
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from dataclasses import dataclass, fields, astuple
+from dataclasses import dataclass, fields, astuple, asdict
+from dacite import from_dict
 import config
 from utils import DBHandler
 import yfinance as yf
+from typing import Optional
 
 @dataclass
 class Transaction:
@@ -20,8 +22,8 @@ class Transaction:
     investment_currency: str
     buy_price: float
     buy_date: str
-    sell_price: float = None
-    sell_date: str = None
+    sell_price: Optional[float] = None
+    sell_date: Optional[str] = None
 
     def __post_init__(self):
         self.currency_codes = set(pd.read_csv(config.paths["currency_codes"])["id"])
@@ -58,7 +60,6 @@ class Transaction:
         return not invalid
 
     def currency_is_valid(self, currency, name):
-        print("CHECKING: ", currency, name)
         valid = currency in self.currency_codes
         if not valid:
             self.errors[name] = "Invalid currency."
@@ -103,6 +104,7 @@ class TransactionHandler(DBHandler):
                                                    quantity, account_currency, investment_currency, 
                                                    buy_price, buy_date, sell_price, sell_date)
                          VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+        
         self.cursor.execute(insert_sql, astuple(transaction))
     
     def insert_csv_transactions(self, path):
@@ -110,11 +112,19 @@ class TransactionHandler(DBHandler):
         # NaNs are turned into "nan" instead of None in transaction parsing
         # -> change all nans to Nones
         df = pd.read_csv(path).replace({np.nan: None})
-        df.apply(self.insert_csv_row, axis=1)
+        
+        for record in df.to_dict(orient="records"):
+            self.insert(from_dict(data_class=Transaction, data=record))
+
+        # df.apply(self.insert_csv_row, axis=1)
     
     def insert_csv_row(self, row):
         transaction = Transaction(*row)
         self.insert(transaction)
+    
+    def fetch_by_id(self, transaction_id):
+        query = f"SELECT * FROM transactions WHERE id={transaction_id}"
+        return self.query_to_pandas(query)
     
     def fetch_open_transactions(self, after_buy_date="0000-00-00", before_buy_date="9999-99-99"):
         query = f'''SELECT * FROM transactions
@@ -122,7 +132,6 @@ class TransactionHandler(DBHandler):
                     AND buy_date > "{after_buy_date}"
                     AND buy_date < "{before_buy_date}"
                     '''
-        print("query: ", query)
         return self.query_to_pandas(query).drop(["sell_date", "sell_price"], axis=1)
 
     def fetch_all_transactions(self):
@@ -135,7 +144,6 @@ class TransactionHandler(DBHandler):
                     AND buy_date > "{after_buy_date}"
                     AND buy_date < "{before_buy_date}"
                     '''
-
         return self.query_to_pandas(query)
     
     def fetch_open_between(self, start, end):
@@ -150,6 +158,24 @@ class TransactionHandler(DBHandler):
     def fetch_earliest_transaction_date(self):
         query = "SELECT MIN(buy_date) FROM transactions"
         return self.cursor.execute(query).fetchall()[0][0]
+    
+    def edit_transaction(self, transaction_id, edited_transaction):
+        transaction_dict = asdict(edited_transaction)
+        keys = tuple(transaction_dict.keys())
+        values = tuple(transaction_dict.values())
+
+        set_string = ", ".join([key + " = ?" for key in keys])
+
+        query = f'''UPDATE transactions
+                    SET {set_string}
+                    WHERE id = {transaction_id}
+                '''
+
+        self.cursor.execute(query, values)
+    
+    def delete(self, transaction_id):
+        query = f"DELETE FROM transactions WHERE id = {transaction_id}"
+        return self.cursor.execute(query)
 
 
 if __name__ == "__main__":
