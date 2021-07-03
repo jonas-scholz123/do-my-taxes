@@ -106,6 +106,7 @@ class TransactionHandler(DBHandler):
                          VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
         
         self.cursor.execute(insert_sql, astuple(transaction))
+        self.cursor.commit()
     
     def insert_csv_transactions(self, path):
 
@@ -172,10 +173,12 @@ class TransactionHandler(DBHandler):
                 '''
 
         self.cursor.execute(query, values)
+        self.cursor.commit()
     
     def delete(self, transaction_id):
         query = f"DELETE FROM transactions WHERE id = {transaction_id}"
-        return self.cursor.execute(query)
+        self.cursor.execute(query)
+        self.cursor.commit()
 
 
 if __name__ == "__main__":
