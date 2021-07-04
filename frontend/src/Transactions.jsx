@@ -21,12 +21,12 @@ function Transactions() {
           <div class="flex justify-between items-center">
             <HighlightedTitle text="Open Transactions" classes="bg-green-200"/>
           </div>
-          <div class="flex justify-center">
+          <div class="flex justify-center block">
             <OpenTransactionsTable
               apiURL= "http://localhost:5000/api/transactions/open"
             />
           </div>
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center block">
             <HighlightedTitle text="Closed Transactions" classes="bg-red-200"/>
           </div>
           <div class="flex justify-center">
@@ -92,6 +92,8 @@ class ClosedTransactionsTable extends React.Component {
 
     const {navigateTo, navigate, error, isLoaded, transactions } = this.state;
 
+    const anyTransactions = transactions.length !== 0;
+
     if (navigate) {
       return <Navigate to={navigateTo} push={true}/>
     }
@@ -104,25 +106,48 @@ class ClosedTransactionsTable extends React.Component {
           <ClipLoader loading={!isLoaded} size={150} />
         </div>
       )
-    } else {
-        return (
-            <div class="w-full">
-                <div class="w-full justify-center">
-                    <Table
-                        content={transactions}
-                        nrRows={this.state.nrRows}
-                        clickable={true}
-                        keyHeader="id"
-                        onClick={(id) => this.handleRowClick(id)}
-                        />
-                </div>
-
-                <div class="py-6 flex justify-center">
-                  <ShowMoreButton onClick={() => this.handleShowMore()}/>
-                </div>
-            </div>
-        )
     }
+
+    const NoTransactionText = ({visible}) => {
+      if (!visible) {
+        return <div/>
+      }
+      return (
+        <h4 class="text-2xl font-semibold text-gray-400">
+          You don't have any closed transactions
+        </h4>
+      )
+    }
+
+    const TableAndButtons = ({visible}) => {
+      if (!visible) {
+        return <div/>
+      }
+      return (
+        <div class="w-full">
+          <div class="w-full justify-center">
+            <Table
+              content={transactions}
+              nrRows={this.state.nrRows}
+              clickable={true}
+              keyHeader="id"
+              onClick={(id) => this.handleRowClick(id)}
+            />
+          </div>
+
+          <div class="py-6 flex justify-center">
+            <ShowMoreButton onClick={() => this.handleShowMore()} />
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div>
+        <NoTransactionText visible={!anyTransactions}/>
+        <TableAndButtons visible={anyTransactions}/>
+      </div>
+    )
   }
 }
 
@@ -189,6 +214,8 @@ class OpenTransactionsTable extends React.Component {
 
     const {navigateTo, navigate, error, isLoaded, transactions } = this.state;
 
+    const anyTransactions = transactions.length !== 0;
+
     if (navigate) {
       return <Navigate to={navigateTo} push={true}/>
     }
@@ -197,46 +224,77 @@ class OpenTransactionsTable extends React.Component {
       return <div> Error; {error.message} </div>;
     } else if (!isLoaded) {
       return <div> Loading... </div>
-    } else {
-
-        //const headers = Object.keys(transactions[0]).map(h => h.replace("_", " "));
-        //const content = transactions.map(t => Object.values(t)).reverse()
-
-        return (
-            <div class="w-full">
-                <div class="w-full justify-center">
-                    <Table
-                        content={transactions}
-                        nrRows={this.state.nrRows}
-                        keyHeader="id"
-                        clickable={true}
-                        onClick={(id) => this.handleRowClick(id)}
-                        />
-                </div>
-
-                <div class="py-6 flex">
-                  <div class="w-1/3"/>
-                  <div class="w-1/3">
-                    <div class="flex justify-center">
-                      <ShowMoreButton onClick={() => this.handleShowMore()} />
-                    </div>
-                  </div>
-                  <div class="w-1/3 h-12 flex justify-end">
-                    <Button
-                        text="Add Transaction"
-                        main={true}
-                        handleClick={() => this.setModalOpen(true)}
-                    />
-                  </div>
-                    <Modal
-                      open={this.state.modalOpen}
-                      setOpen={(bool) => this.setModalOpen(bool)}
-                      loadTransactions={() => this.loadTransactions()}
-                    />
-                </div>
-            </div>
-        )
     }
+
+    const TableAndButtons = ({visible}) => {
+      if (!visible) {
+        return <div/>
+      }
+      return (
+        <div>
+          <div class="w-full justify-center">
+            <Table
+              content={transactions}
+              nrRows={this.state.nrRows}
+              keyHeader="id"
+              clickable={true}
+              onClick={(id) => this.handleRowClick(id)}
+            />
+          </div>
+
+          <div class="py-6 flex">
+            <div class="w-1/3"/>
+            <div class="w-1/3">
+              <div class="flex justify-center">
+                <ShowMoreButton onClick={() => this.handleShowMore()} />
+              </div>
+            </div>
+            <div class="w-1/3 h-12 flex justify-end">
+              <Button
+                text="Add Transaction"
+                main={true}
+                handleClick={() => this.setModalOpen(true)}
+              />
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const MissingAndButton = ({visible}) => {
+      if (!visible) {
+        return <div/>
+      }
+      return (
+          <div class="flex justify-center">
+            <div>
+              <h4 class="text-2xl font-semibold text-gray-400">
+                You don't have any open transactions
+              </h4>
+              <div class="flex justify-center py-2">
+                <Button
+                  text="Add Transaction"
+                  main={true}
+                  handleClick={() => this.setModalOpen(true)}
+                />
+              </div>
+            </div>
+          </div>
+      )
+    }
+
+    return (
+      <div class="w-full">
+        <TableAndButtons visible={anyTransactions}/>
+        <MissingAndButton visible={!anyTransactions}/>
+        <Modal
+          open={this.state.modalOpen}
+          setOpen={(bool) => this.setModalOpen(bool)}
+          loadTransactions={() => this.loadTransactions()}
+        />
+      </div>
+    )
+
   }
 }
 

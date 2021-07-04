@@ -3,6 +3,13 @@ import React from 'react';
 class Table extends React.Component {
   render() {
 
+    if (!this.props.content[0]) {
+      return (
+        <div>
+        </div>
+      )
+    }
+
     const headerElements = Object.keys(this.props.content[0])
           .map(el => <TableHeaderElement text={el.replaceAll("_", " ")}/>)
 
