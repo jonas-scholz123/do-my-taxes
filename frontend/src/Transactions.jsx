@@ -113,7 +113,7 @@ class ClosedTransactionsTable extends React.Component {
         return <div/>
       }
       return (
-        <h4 class="text-2xl font-semibold text-gray-400">
+        <h4 class="text-2xl font-semibold text-gray-400 pb-6">
           You don't have any closed transactions
         </h4>
       )
