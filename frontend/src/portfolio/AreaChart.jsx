@@ -94,7 +94,7 @@ function AreaChart(props) {
                 fill={[
                     {
                         match: {
-                            id: props.data[2].id
+                            id: props.data.length > 2 ? props.data[2].id : null
                         },
                         id: 'lines'
                     },
