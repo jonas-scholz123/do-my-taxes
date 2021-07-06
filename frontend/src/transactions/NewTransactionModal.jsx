@@ -37,6 +37,7 @@ const NewTransactionForm = (props) => (
         })
         .then(function (response) {
           props.setOpen(false)
+          // reload transactions with new updated transaction
           props.loadTransactions()
         })
         .catch(function (error) {
@@ -76,7 +77,7 @@ export const TransactionFormContent = () => {
           name="category"
           title="Category"
           // TODO: Fetch from api
-          options={["US Equity", "Bets", "Developed Equity", "Emerging Equity"]}
+          options={["US Equity", "Bets", "Developed Equity", "Emerging Equity", "UK Equity"]}
         />
 
         <div class="flex justify-between">
@@ -93,6 +94,7 @@ export const TransactionFormContent = () => {
 }
 
 export default function NewTransactionModal(props) {
+
 
   const footerContent = (
     <div class="flex">
