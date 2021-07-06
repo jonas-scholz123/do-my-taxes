@@ -98,6 +98,12 @@ function AreaChart(props) {
                         },
                         id: 'lines'
                     },
+                    {
+                        match: {
+                            id: props.data.length > 4 ? props.data[4].id : null
+                        },
+                        id: 'dots'
+                    }
                 ]}
             />
         )
