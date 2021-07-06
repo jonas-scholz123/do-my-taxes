@@ -202,7 +202,7 @@ const EditTransaction = ({transaction, setGoBack}) => {
                     name="category"
                     title="Category"
                     // TODO: Fetch from api
-                    options={["US Equity", "Bets", "Developed Equity", "Emerging Equity"]}
+                    options={["US Equity", "Bets", "Developed Equity", "Emerging Equity", "UK Equity"]}
                   />
 
                   <div class="flex justify-between">
