@@ -58,8 +58,11 @@ class OpenTransactionsTable extends React.Component {
   }
 
   reload() {
+    /* We pass this as the key prop to the transaciton table.
+       By changing it, we force the child component to refresh.
+    */
+    
     this.setState((state) => ({nrReloads: state.nrReloads + 1}))
-    console.log(this.state.nrReloads)
   }
 
   render() {
