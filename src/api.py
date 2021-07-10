@@ -49,7 +49,10 @@ def get_portfolio_history():
 def get_current_portfolio():
     portfolio.generate()
     df = portfolio.df.copy()
-    df.drop(["depot", "account_currency", "buy_value", "exchange_rate", "current_price", "current_value"], axis=1, inplace=True)
+    df.drop(["depot", "account_currency", "buy_value", "current_price", "current_value",
+             "category", "investment_currency", "exchange_rate"], axis=1, inplace=True)
+
+
     df.sort_values("current_value_gbp", inplace=True, ascending=False)
     return df.round(2).to_json(orient="records")
 
