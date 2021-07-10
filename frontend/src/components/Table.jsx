@@ -1,54 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-class Table extends React.Component {
-  render() {
+function Table (props) {
+  if (!props.content[0]) {
+    return (
+      <div>
+      </div>
+    )
+  }
 
-    if (!this.props.content[0]) {
-      return (
-        <div>
-        </div>
-      )
-    }
+  const headerElements = Object.keys(props.content[0])
+    .map(el => <TableHeaderElement text={el.replaceAll("_", " ")} />)
 
-    const headerElements = Object.keys(this.props.content[0])
-          .map(el => <TableHeaderElement text={el.replaceAll("_", " ")}/>)
-
-    console.log("ONCLICK: ", this.props.onClick, typeof(this.props.onClick))
-    let rows = this.props.content.map(
-      (record) =>
+  let rows = props.content.map(
+    (record) =>
       <TableRow
         elements={Object.values(record)}
-        id={record[this.props.keyHeader]}
-        onClick={(id) => this.props.onClick(id)}
-        {...this.props}
+        id={record[props.keyHeader]}
+        onClick={props.onClick ? (id) => props.onClick(id) : undefined}
+        {...props}
       />
-    )
-    
-    if (this.props.nrRows) {
-      rows = rows.slice(0, this.props.nrRows)
-    }
+  )
 
-    return (
-      <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-100">
-                  <tr>
-                    {headerElements}
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  {rows}
-                </tbody>
-              </table>
-            </div>
+  if (props.nrRows) {
+    rows = rows.slice(0, props.nrRows)
+  }
+
+  return (
+    <div class="flex flex-col">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
+                <tr>
+                  {headerElements}
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {rows}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 function TableRow(props) {
@@ -58,7 +54,7 @@ function TableRow(props) {
 
   const classes = props.clickable ? "hover:bg-gray-100 cursor-pointer" : ""
   return (
-    <tr class={classes} key={props.id} onClick={() => props.onClick(props.id)}> {elements} </tr>
+    <tr class={classes} key={props.id} onClick={props.clickable ? () => props.onClick(props.id) : undefined}> {elements} </tr>
   )
 }
 
@@ -71,8 +67,23 @@ function TableHeaderElement(props) {
 }
 
 function TableRowElement(props) {
+  var formattedText = props.text
+
+  const filters = [
+    {
+      condition: (text) => !isNaN(text),
+      change: (text) => text.toLocaleString()
+    }
+  ]
+
+  filters.forEach(filter => {
+    if (filter.condition(props.text)) {
+      formattedText = filter.change(formattedText)
+    }
+  })
+
   return (
-      <td class="px-3 py-4 whitespace-nowrap">{props.text}</td>
+      <td class="px-3 py-4 whitespace-nowrap">{formattedText}</td>
   )
 }
 
