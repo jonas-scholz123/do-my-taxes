@@ -5,7 +5,7 @@ const Card = (props) => {
        handleClick = props.handleClick 
     }
     return (
-        <div class={"border shadow rounded-lg py-8 " + props.classes} onClick={() => handleClick()}>
+        <div class={props.classes + " border shadow rounded-lg "} onClick={() => handleClick()}>
             {props.content}
         </div>
     )
