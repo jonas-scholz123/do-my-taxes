@@ -2,7 +2,6 @@ import React from 'react';
 import Transactions from "./Transactions";
 import SingleTransaction from './SingleTransaction';
 import Portfolio from "./Portfolio";
-import PortfolioNew from "./Portfolio copy";
 
 import {
   BrowserRouter,
@@ -22,7 +21,6 @@ function App() {
           </Route>
 
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/portfolio2" element={<PortfolioNew />} />
         </Routes>
       </div>
     </BrowserRouter>
