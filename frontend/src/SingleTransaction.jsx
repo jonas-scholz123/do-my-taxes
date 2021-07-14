@@ -5,6 +5,7 @@ import BaseButton from "./components/BaseButton";
 import Card from "./components/Card";
 import { Formik, Form, Field } from 'formik';
 import { InputField, TextInput, NumberInput, OptionSelect } from './components/FormElements';
+import { replaceDictKeys } from "./utils";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const SingleTransaction = () => {
@@ -69,11 +70,8 @@ const GoBack = () => {
 
 const SellTransaction = ({ transaction, setGoBack }) => {
 
-  for (const key in transaction) {
-    if (transaction[key] === null) {
-      transaction[key] = ""
-    }
-  }
+  // "" should be default value for inputs, comes as null from database
+  replaceDictKeys(transaction, null, "")
 
   return (
     <div>
@@ -217,6 +215,9 @@ const EditTransaction = ({ transaction, setGoBack }) => {
         validate={values => { }}
 
         onSubmit={(values, { setSubmitting, setFieldError }) => {
+          // "" should be default value for inputs, turn to null for database
+          replaceDictKeys(values, "", null)
+          
           axios.post('/transactions/edit', values)
             .then(function (response) {
               setGoBack(true)
