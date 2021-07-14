@@ -45,7 +45,8 @@ function PositionCards(props) {
     />)
 
   return (
-    <div>
+    <div class="grid grid-cols-1 divide-y">
+      <h1 class="text-3xl font-bold p-4"> Open Positions</h1>
       {cards}
     </div>
   )
