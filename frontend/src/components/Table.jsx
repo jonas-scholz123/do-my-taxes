@@ -9,13 +9,14 @@ function Table (props) {
   }
 
   const headerElements = Object.keys(props.content[0])
-    .map(el => <TableHeaderElement text={el.replaceAll("_", " ")} />)
+    .map(el => <TableHeaderElement text={el.replaceAll("_", " ")} key={el}/>)
 
   let rows = props.content.map(
     (record) =>
       <TableRow
-        elements={Object.values(record)}
+        record={record}
         id={record[props.keyHeader]}
+        key={record[props.keyHeader].toString()}
         onClick={props.onClick ? (id) => props.onClick(id) : undefined}
         {...props}
       />
@@ -48,13 +49,13 @@ function Table (props) {
 }
 
 function TableRow(props) {
-  const elements = props.elements.map((element) => 
-    <TableRowElement text={element}/>
+  const elements = Object.entries(props.record).map(item =>
+    <TableRowElement text={item[1]} key={item[0]}/>
   )
 
   const classes = props.clickable ? "hover:bg-gray-100 cursor-pointer" : ""
   return (
-    <tr className={classes} key={props.id} onClick={props.clickable ? () => props.onClick(props.id) : undefined}> {elements} </tr>
+    <tr className={classes} key={props.id} onClick={props.clickable ? () => props.onClick(props.id) : undefined}>{elements}</tr>
   )
 }
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from './axiosConfig';
 import BaseButton from "./components/BaseButton";
 import Card from "./components/Card";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import { InputField, TextInput, NumberInput, OptionSelect } from './components/FormElements';
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -21,32 +21,28 @@ const SingleTransaction = () => {
           setTransaction(result)
           setLoaded(true)
         });
-  },
-
-    (error) => {
-    }
-  )
+  }, [transactionId])
 
   if (goBack) {
-    return <Navigate to={"/transactions/"} push={true}/>
+    return <Navigate to={"/transactions/"} push={true} />
   }
 
   if (!loaded) {
-      return <ClipLoader loading={!loaded} size={150} />
+    return <ClipLoader loading={!loaded} size={150} />
   }
   return (
     <div className="flex justify-center">
       <div className="flex flex-wrap w-full justify-center">
         <div className="md:w-5/12">
           <Card
-            content={<GoBack/>}
-            classes="mt-6 mx-3 px-10 text-indigo-800 hover:bg-indigo-800 hover:text-white cursor-pointer"
+            content={<GoBack />}
+            classes="mt-6 mx-3 px-10 py-6 text-indigo-800 hover:bg-indigo-800 hover:text-white cursor-pointer"
             handleClick={() => setGoBack(true)}
           />
-          <Card content={<SellTransaction transaction={transaction} setGoBack={setGoBack}/>} classes="mt-6 mx-3"/>
-          <Card content={<DeleteTransaction setGoBack={setGoBack} id={transaction.id}/>} classes="mt-6 mx-3"/>
+          <Card content={<SellTransaction transaction={transaction} setGoBack={setGoBack} />} classes="mt-6 mx-3 py-6" />
+          <Card content={<DeleteTransaction setGoBack={setGoBack} id={transaction.id} />} classes="mt-6 mx-3 py-6" />
         </div>
-        <Card content={<EditTransaction transaction={transaction} setGoBack={setGoBack} />} classes="m-6 md:w-5/12"/>
+        <Card content={<EditTransaction transaction={transaction} setGoBack={setGoBack} />} classes="m-6 md:w-5/12 py-6" />
       </div>
     </div>
   )
@@ -65,7 +61,13 @@ const GoBack = () => {
   )
 }
 
-const SellTransaction = ({transaction, setGoBack}) => {
+const SellTransaction = ({ transaction, setGoBack }) => {
+
+  for (const key in transaction) {
+    if (transaction[key] === null) {
+      transaction[key] = ""
+    }
+  }
 
   return (
     <div>
@@ -75,24 +77,24 @@ const SellTransaction = ({transaction, setGoBack}) => {
         enableReinitialize
         validateOnBlur={false}
         validate={values => {
-          console.log("validating...", values)
           const errors = {};
           Object.keys(values).forEach((key) => {
             if (!values[key]) {
               errors[key] = "Required";
-            }})
-            return errors;
-          }
+            }
+          })
+          return errors;
+        }
         }
 
         onSubmit={(values, { setSubmitting, setFieldError }) => {
           axios.post('/transactions/edit', values)
-          .then(function (response) {
-            setGoBack(true)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            .then(function (response) {
+              setGoBack(true)
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }}
       >
         {({ isSubmitting }) => (
@@ -102,7 +104,7 @@ const SellTransaction = ({transaction, setGoBack}) => {
               <div>
                 <Form>
                   <Field as={NumberInput} name="sell_price" title="Price" min="0"
-                    classes="w-2/3" step="any" suffix={transaction["investment_currency"]}/>
+                    classes="w-2/3" step="any" suffix={transaction["investment_currency"]} />
 
                   <div className="flex justify-center items-center">
                     <Field as={InputField} name="sell_date" title="Sell Date" type="date" />
@@ -127,7 +129,7 @@ const SellTransaction = ({transaction, setGoBack}) => {
   )
 }
 
-const DeleteTransaction = ({id, setGoBack}) => {
+const DeleteTransaction = ({ id, setGoBack }) => {
 
   const handleClick = () => {
     axios.delete('http://localhost:5000/api/transactions/' + id.toString())
@@ -136,9 +138,9 @@ const DeleteTransaction = ({id, setGoBack}) => {
       })
       .catch(function (error) {
       }
-    )
+      )
   }
-    
+
 
   return (
     <div className="flex justify-center">
@@ -160,7 +162,7 @@ const DeleteTransaction = ({id, setGoBack}) => {
   )
 }
 
-const EditTransaction = ({transaction, setGoBack}) => {
+const EditTransaction = ({ transaction, setGoBack }) => {
   return (
     <div>
       <Formik
@@ -168,17 +170,15 @@ const EditTransaction = ({transaction, setGoBack}) => {
         validateOnChange={false}
         enableReinitialize
         validateOnBlur={false}
-        validate={values => {}}
+        validate={values => { }}
 
         onSubmit={(values, { setSubmitting, setFieldError }) => {
           axios.post('/transactions/edit', values)
-          .then(function (response) {
-            console.log("SENDING: ", values);
-            setGoBack(true)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            .then(function (response) {
+              setGoBack(true)
+            })
+            .catch(function (error) {
+            });
         }}
       >
         {({ isSubmitting }) => (
@@ -194,8 +194,8 @@ const EditTransaction = ({transaction, setGoBack}) => {
                     // TODO: Fetch from api
                     options={["Depot 1", "Depot 2", "Depot 3"]}
                   />
-                  <Field as={TextInput} name="name" title="Investment Name" classes="w-full"/>
-                  <Field as={TextInput} name="ticker" title="Ticker" classes="w-full"/>
+                  <Field as={TextInput} name="name" title="Investment Name" classes="w-full" />
+                  <Field as={TextInput} name="ticker" title="Ticker" classes="w-full" />
                   <Field
                     as={OptionSelect}
                     name="category"
@@ -205,8 +205,8 @@ const EditTransaction = ({transaction, setGoBack}) => {
                   />
 
                   <div className="flex justify-between">
-                    <Field as={TextInput} name="account_currency" title="Account Currency" classes="w-2/3"/>
-                    <Field as={TextInput} name="investment_currency" title="Investment Currency" classes="w-2/3"/>
+                    <Field as={TextInput} name="account_currency" title="Account Currency" classes="w-2/3" />
+                    <Field as={TextInput} name="investment_currency" title="Investment Currency" classes="w-2/3" />
                   </div>
                   <div className="flex justify-between">
                     <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-2/3" step="any" />

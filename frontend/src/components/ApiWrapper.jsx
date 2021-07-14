@@ -14,12 +14,10 @@ function withApiWrapper(WrappedComponent, apiUrl) {
     const [data, setData] = useState([])
 
     useEffect(() => {
-      console.log("trying to fetch")
       fetch(apiUrl)
         .then(res => res.json())
         .then(
           (result) => {
-            console.log("found in API wrapper: ", result)
             setData(result)
             setLoading(false)
           },
@@ -42,7 +40,6 @@ function withApiWrapper(WrappedComponent, apiUrl) {
       return <div> Error; {error.message} </div>;
     }
     
-    console.log("Loaded... this is the data that was found: ", data)
     return <WrappedComponent data={data} {...props}/>
     
   }
