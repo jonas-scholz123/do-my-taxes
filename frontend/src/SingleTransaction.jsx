@@ -1,6 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import { TransactionFormContent } from "./transactions/NewTransactionModal";
 import axios from './axiosConfig';
 import BaseButton from "./components/BaseButton";
 import Card from "./components/Card";

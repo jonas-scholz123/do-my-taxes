@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Button from "../components/Button";
 import Modal from "../components/Modal";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import {InputField, TextInput, NumberInput, OptionSelect} from '../components/FormElements';
 
 const NewTransactionForm = (props) => (

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from "./components/Header";
-import Card from "./components/Card";
-import BarChart from "./portfolio/BarChart";
 import HistoryBrowser from './portfolio/HistoryBrowser';
-import PortfolioTable from './portfolio/PortfolioTable';
-import withApiWrapper from './components/ApiWrapper';
 import PositionCards from './portfolio/PositionCards'
 
 export default function Portfolio(props) {

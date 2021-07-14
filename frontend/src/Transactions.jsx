@@ -1,14 +1,9 @@
 import React from 'react';
 import Button from "./components/Button";
-import ShowMoreButton from './components/ShowMoreButton';
-import Table from "./components/Table";
 import Modal from "./transactions/NewTransactionModal";
 import Header from "./components/Header";
 import HighlightedTitle from "./components/HighlightedTitle";
 import TransactionTable from './transactions/TransactionTable';
-import ClipLoader from "react-spinners/ClipLoader";
-import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router"
 import withApiWrapper from './components/ApiWrapper';
 
 function Transactions() {

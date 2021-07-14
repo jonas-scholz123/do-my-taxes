@@ -2,7 +2,6 @@ import React from 'react';
 import ShowMoreButton from '../components/ShowMoreButton';
 import Table from "../components/Table";
 
-import ClipLoader from "react-spinners/ClipLoader";
 import { Navigate } from "react-router"
 
 class TransactionTable extends React.Component {
