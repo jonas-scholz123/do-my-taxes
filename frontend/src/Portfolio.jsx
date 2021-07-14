@@ -9,10 +9,7 @@ export default function Portfolio(props) {
       <Header active="Portfolio" />
       <div class="h-screen grid grid-cols-12 gap-5 p-5">
         <div class="col-span-4 overflow-scroll border rounded-lg shadow-lg ">
-          <div class="grid grid-cols-1 divide-y">
-            <h1 class="text-3xl font-bold p-4"> Open Positions</h1>
-            <PositionCards/>
-          </div>
+          <PositionCards/>
         </div>
         <div class="col-span-8 overflow-scroll border rounded-lg shadow-lg">
           <div class="p-4 bg-white">
