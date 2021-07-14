@@ -35,9 +35,9 @@ const SingleTransaction = () => {
       return <ClipLoader loading={!loaded} size={150} />
   }
   return (
-    <div class="flex justify-center">
-      <div class="flex flex-wrap w-full justify-center">
-        <div class="md:w-5/12">
+    <div className="flex justify-center">
+      <div className="flex flex-wrap w-full justify-center">
+        <div className="md:w-5/12">
           <Card
             content={<GoBack/>}
             classes="mt-6 mx-3 px-10 text-indigo-800 hover:bg-indigo-800 hover:text-white cursor-pointer"
@@ -54,11 +54,11 @@ const SingleTransaction = () => {
 
 const GoBack = () => {
   return (
-    <div class="flex items-center">
+    <div className="flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
       </svg>
-      <div class="text-4xl font-bold px-6">
+      <div className="text-4xl font-bold px-6">
         Back to Transactions
       </div>
     </div>
@@ -96,17 +96,17 @@ const SellTransaction = ({transaction, setGoBack}) => {
         }}
       >
         {({ isSubmitting }) => (
-          <div class="flex justify-center">
-            <div class="w-10/12">
-              <h1 class="text-4xl font-bold pb-3"> Close Transaction </h1>
+          <div className="flex justify-center">
+            <div className="w-10/12">
+              <h1 className="text-4xl font-bold pb-3"> Close Transaction </h1>
               <div>
                 <Form>
                   <Field as={NumberInput} name="sell_price" title="Price" min="0"
                     classes="w-2/3" step="any" suffix={transaction["investment_currency"]}/>
 
-                  <div class="flex justify-center items-center">
+                  <div className="flex justify-center items-center">
                     <Field as={InputField} name="sell_date" title="Sell Date" type="date" />
-                    <div class="w-full pt-3 pl-5">
+                    <div className="w-full pt-3 pl-5">
                       <BaseButton
                         type="submit"
                         classes={`bg-indigo-700 text-white rounded-lg w-full p-6 text-base
@@ -141,12 +141,12 @@ const DeleteTransaction = ({id, setGoBack}) => {
     
 
   return (
-    <div class="flex justify-center">
-      <div class="w-10/12">
-        <h1 class="text-4xl font-bold p-4"> Delete Transaction </h1>
-        <div class="">
+    <div className="flex justify-center">
+      <div className="w-10/12">
+        <h1 className="text-4xl font-bold p-4"> Delete Transaction </h1>
+        <div className="">
           <button
-            class={` bg-red-600 text-white rounded-lg w-full p-3 text-base
+            className={` bg-red-600 text-white rounded-lg w-full p-3 text-base
                       hover:bg-red-700 focus:outline-none focus:ring-2
                       focus:ring-offset-2 focus:ring-red-500`}
             onClick={() => handleClick()}
@@ -182,9 +182,9 @@ const EditTransaction = ({transaction, setGoBack}) => {
         }}
       >
         {({ isSubmitting }) => (
-          <div class="flex justify-center">
-            <div class="w-10/12">
-              <h1 class="text-4xl font-bold p-4"> Edit Transaction </h1>
+          <div className="flex justify-center">
+            <div className="w-10/12">
+              <h1 className="text-4xl font-bold p-4"> Edit Transaction </h1>
               <div>
                 <Form id="new-transaction">
                   <Field
@@ -204,18 +204,18 @@ const EditTransaction = ({transaction, setGoBack}) => {
                     options={["US Equity", "Bets", "Developed Equity", "Emerging Equity", "UK Equity"]}
                   />
 
-                  <div class="flex justify-between">
+                  <div className="flex justify-between">
                     <Field as={TextInput} name="account_currency" title="Account Currency" classes="w-2/3"/>
                     <Field as={TextInput} name="investment_currency" title="Investment Currency" classes="w-2/3"/>
                   </div>
-                  <div class="flex justify-between">
+                  <div className="flex justify-between">
                     <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-2/3" step="any" />
                     <Field as={NumberInput} name="buy_price" title="Price" classes="w-2/3" min="0" step="any" />
                   </div>
-                  <div class="flex justify-between items-center">
+                  <div className="flex justify-between items-center">
                     <Field as={InputField} name="buy_date" title="Buy Date" type="date" />
 
-                    <div class="w-full pt-3 pl-10">
+                    <div className="w-full pt-3 pl-10">
                       <BaseButton
                         type="submit"
                         classes={`bg-indigo-700 text-white rounded-lg w-full text-base

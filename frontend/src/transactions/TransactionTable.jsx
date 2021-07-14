@@ -43,8 +43,8 @@ class TransactionTable extends React.Component {
         return <div />
       }
       return (
-        <div class="w-full">
-          <div class="w-full justify-center">
+        <div className="w-full">
+          <div className="w-full justify-center">
             <Table
               content={this.state.transactions}
               nrRows={this.state.nrRows}
@@ -54,10 +54,10 @@ class TransactionTable extends React.Component {
             />
           </div>
 
-          <div class="py-6 flex">
-            <div class="w-1/3" />
-            <div class="w-1/3">
-              <div class={"flex justify-center " + (this.state.hideShowMore ? "hidden" : "")}>
+          <div className="py-6 flex">
+            <div className="w-1/3" />
+            <div className="w-1/3">
+              <div className={"flex justify-center " + (this.state.hideShowMore ? "hidden" : "")}>
                 <ShowMoreButton onClick={() => this.handleShowMore()} />
               </div>
             </div>
@@ -72,7 +72,7 @@ class TransactionTable extends React.Component {
     }
 
     return (
-      <div class="w-full">
+      <div className="w-full">
         <TableAndButtons visible={anyTransactions} />
         {anyTransactions ? null : this.props.NoTransactionContent}
       </div>

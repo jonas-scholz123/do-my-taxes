@@ -51,18 +51,18 @@ function AreaChart(props) {
                         style={{
                             color: point.serieColor,
                         }}
-                        class="pb-2 flex justify-between"
+                        className="pb-2 flex justify-between"
                     >
-                        <strong class="px-3">{point.serieId}</strong> £{point.data.yFormatted}
+                        <strong className="px-3">{point.serieId}</strong> £{point.data.yFormatted}
                     </div>
                 ))
 
                 return (
-                    <div class="p-3 border bg-white rounded-md grid">
-                        <div class="font-semibold pb-2">Date: {slice.points[0].data.xFormatted} </div>
+                    <div className="p-3 border bg-white rounded-md grid">
+                        <div className="font-semibold pb-2">Date: {slice.points[0].data.xFormatted} </div>
                         {summaries}
-                        <div class="border-t border-black py-2 flex justify-between">
-                            <strong class="px-3"> Total </strong> £{sum}
+                        <div className="border-t border-black py-2 flex justify-between">
+                            <strong className="px-3"> Total </strong> £{sum}
                         </div>
                     </div>
                 )

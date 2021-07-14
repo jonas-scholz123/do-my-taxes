@@ -16,7 +16,7 @@ const BaseButton = (props) => {
 
   return(
     <button
-      class={customClasses}
+      className={customClasses}
       onClick={handleClick ? handleClick : () => {}}
       {...rest}
     >

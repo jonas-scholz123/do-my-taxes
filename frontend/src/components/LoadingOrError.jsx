@@ -7,7 +7,7 @@ export default function LoadingOrError(props){
     return <div> Error; {error.message} </div>;
     } else if (!isLoaded) {
         return (
-            <div class="flex justify-center items-center p-10">
+            <div className="flex justify-center items-center p-10">
                 <ClipLoader loading={!isLoaded} size={150} />
             </div>
         )

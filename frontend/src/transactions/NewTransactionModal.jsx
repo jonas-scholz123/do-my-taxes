@@ -80,11 +80,11 @@ export const TransactionFormContent = () => {
           options={["US Equity", "Bets", "Developed Equity", "Emerging Equity", "UK Equity"]}
         />
 
-        <div class="flex justify-between">
+        <div className="flex justify-between">
           <Field as={TextInput} name="account_currency" title="Account Currency"/>
           <Field as={TextInput} name="investment_currency" title="Investment Currency" />
         </div>
-        <div class="flex justify-between">
+        <div className="flex justify-between">
           <Field as={NumberInput} name="quantity" title="Quantity" min="0" classes="w-full" step="any" />
           <Field as={NumberInput} name="buy_price" title="Price" classes="w-full" min="0" step="any" />
         </div>
@@ -97,11 +97,11 @@ export default function NewTransactionModal(props) {
 
 
   const footerContent = (
-    <div class="flex">
-      <div class="px-2">
+    <div className="flex">
+      <div className="px-2">
         <Button text="Cancel" handleClick={() => props.setOpen(false)} />
       </div>
-      <div class="px-2">
+      <div className="px-2">
         <Button main={true} type="submit" form="new-transaction" text="Add Transaction" handleClick={() => { }} />
       </div>
     </div>

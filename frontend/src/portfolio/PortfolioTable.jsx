@@ -44,15 +44,15 @@ class PortfolioTable extends React.Component {
             }
         else if (!isLoaded) {
             return (
-                <div class="flex justify-center items-center">
+                <div className="flex justify-center items-center">
                     <ClipLoader loading={!isLoaded} size={150} />
                 </div>
             )
         }
   
           return (
-              <div class="w-full">
-                  <div class="w-full justify-center">
+              <div className="w-full">
+                  <div className="w-full justify-center">
                       <Table
                           content={data}
                           />

@@ -104,14 +104,14 @@ class HistoryBrowser extends React.Component {
     const buttons = this.getButtonArray();
 
     return (
-      <div class="h-4/5">
-        <div class="h-full">
+      <div className="h-4/5">
+        <div className="h-full">
           <AreaChart
             data={data}
           />
         </div>
-        <div class="flex justify-end">
-          <div class="w-1/4 flex justify-end">
+        <div className="flex justify-end">
+          <div className="w-1/4 flex justify-end">
             {buttons}
           </div>
         </div>

@@ -32,7 +32,7 @@ function withApiWrapper(WrappedComponent, apiUrl) {
 
     if (loading) {
       return (
-        <div class="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <ClipLoader loading={loading} size={150} />
         </div>
       )

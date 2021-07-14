@@ -13,7 +13,7 @@ class Header extends React.Component {
     const pages = ["Portfolio", "Transactions"];
 
     const pageButtons = pages.map(
-      //page => <a href="#" class= {page === active_page ? active_class : inactive_class}> {page} </a>
+      //page => <a href="#" className= {page === active_page ? active_class : inactive_class}> {page} </a>
       page => 
       <Link
         to={"/" + page.toLowerCase()}
@@ -25,10 +25,10 @@ class Header extends React.Component {
 
 
     return (
-      <nav class="flex h-20 w-full bg-white items-center shadow">
-        <div class="container w-11/12 px-4 mx-auto md:flex md:items-center">
+      <nav className="flex h-20 w-full bg-white items-center shadow">
+        <div className="container w-11/12 px-4 mx-auto md:flex md:items-center">
             <p className="text-5xl text-indigo-700 font-bold tracking-tighter">Taxify</p>
-          <div class="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
+          <div className="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
             {pageButtons}
           </div>
         </div>

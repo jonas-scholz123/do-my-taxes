@@ -10,21 +10,21 @@ function Transactions() {
   return (
     <div>
       <Header active="Transactions"/>
-      <div class="flex justify-center">
-        <div class="w-10/12">
-          <p class="text-5xl font-bold p-6">Your Transactions</p>
-          <div class="flex justify-between items-center">
+      <div className="flex justify-center">
+        <div className="w-10/12">
+          <p className="text-5xl font-bold p-6">Your Transactions</p>
+          <div className="flex justify-between items-center">
             <HighlightedTitle text="Open Transactions" classes="bg-green-200"/>
           </div>
-          <div class="flex justify-center block">
+          <div className="flex justify-center block">
             <OpenTransactionsTable
               apiURL="http://localhost:5000/api/transactions/open"
             />
           </div>
-          <div class="flex justify-between items-center block">
+          <div className="flex justify-between items-center block">
             <HighlightedTitle text="Closed Transactions" classes="bg-red-200"/>
           </div>
-          <div class="flex justify-center">
+          <div className="flex justify-center">
             <ClosedTransactionsTable
               apiURL="http://localhost:5000/api/transactions/closed"
             />
@@ -64,7 +64,7 @@ class OpenTransactionsTable extends React.Component {
 
     const AddTransactionButton = ({setModalOpen}) => {
       return(
-        <div class="w-1/3 h-12 flex justify-end">
+        <div className="w-1/3 h-12 flex justify-end">
           <Button
             text="Add Transaction"
             main={true}
@@ -76,12 +76,12 @@ class OpenTransactionsTable extends React.Component {
 
     const MissingAndButton = ({setModalOpen}) => {
       return (
-        <div class="flex justify-center">
+        <div className="flex justify-center">
           <div>
-            <h4 class="text-2xl font-semibold text-gray-400">
+            <h4 className="text-2xl font-semibold text-gray-400">
               You don't have any open transactions
             </h4>
-            <div class="flex justify-center py-2">
+            <div className="flex justify-center py-2">
               <Button
                 text="Add Transaction"
                 main={true}
@@ -96,7 +96,7 @@ class OpenTransactionsTable extends React.Component {
     const WrappedTransactionTable = withApiWrapper(TransactionTable, this.props.apiURL)
 
     return (
-      <div class="w-full">
+      <div className="w-full">
           {/*We pass the key to reload the child component so that it fetches from api */}
         <WrappedTransactionTable
           bottomRightContent={<AddTransactionButton setModalOpen={(bool) => this.setModalOpen(bool)}/>}
@@ -118,9 +118,9 @@ const ClosedTransactionsTable = (props) => {
 
     const NoTransactionText = () => {
       return (
-        <div class="flex justify-center">
+        <div className="flex justify-center">
           <div>
-            <h4 class="text-2xl font-semibold text-gray-400 pb-6">
+            <h4 className="text-2xl font-semibold text-gray-400 pb-6">
               You don't have any closed transactions
             </h4>
           </div>

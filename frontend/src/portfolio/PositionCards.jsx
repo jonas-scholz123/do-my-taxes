@@ -3,27 +3,27 @@ import withApiWrapper from '../components/ApiWrapper';
 
 function PositionCard(props) {
   return (
-    <div class="h-24 py-4 px-6 flex">
-      <div class="w-2/12">
-        <div class="flex justify-center text-5xl items-center h-full font-semibold text-white bg-gray-400 h-16 w-16">
+    <div className="h-24 py-4 px-6 flex">
+      <div className="w-2/12">
+        <div className="flex justify-center text-5xl items-center h-full font-semibold text-white bg-gray-400 h-16 w-16">
           {props.name ? props.name.substring(0, 1) : ""}
         </div>
       </div>
-      <div class="w-8/12 px-4">
-        <div class="font-semibold">
+      <div className="w-8/12 px-4">
+        <div className="font-semibold">
           {props.name}
         </div>
-        <div class="text-gray-500 flex">
-          <p class="uppercase">{props.ticker} </p>
-          <p class="px-1"> | </p>
+        <div className="text-gray-500 flex">
+          <p className="uppercase">{props.ticker} </p>
+          <p className="px-1"> | </p>
           <p>{props.quantity.toLocaleString()} shares</p>
         </div>
       </div>
-      <div class="w-2/12">
-        <div class="text-gray-900 flex justify-end">
+      <div className="w-2/12">
+        <div className="text-gray-900 flex justify-end">
           £{props.value.toLocaleString()}
         </div>
-        <div class={"flex justify-end " + (props.percentIncrease >= 0 ? "text-green-400" : "text-red-400")}>
+        <div className={"flex justify-end " + (props.percentIncrease >= 0 ? "text-green-400" : "text-red-400")}>
           {props.percentIncrease}%
         </div>
       </div>
@@ -46,8 +46,8 @@ function PositionCards(props) {
     />)
 
   return (
-    <div class="grid grid-cols-1 divide-y">
-      <h1 class="text-3xl font-bold p-4"> Open Positions</h1>
+    <div className="grid grid-cols-1 divide-y">
+      <h1 className="text-3xl font-bold p-4"> Open Positions</h1>
       {cards}
     </div>
   )
