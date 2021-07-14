@@ -12,7 +12,7 @@ export default function Portfolio(props) {
           <PositionCards/>
         </div>
         <div class="col-span-8 overflow-scroll border rounded-lg shadow-lg">
-          <div class="p-4 bg-white">
+          <div class="p-4 bg-white h-full">
             <h1 class="text-3xl font-bold pb-3"> Portfolio History </h1>
             <HistoryBrowser
               apiURL="http://localhost:5000/api/portfolio/history"
