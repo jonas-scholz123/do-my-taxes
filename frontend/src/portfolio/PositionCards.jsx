@@ -3,9 +3,11 @@ import withApiWrapper from '../components/ApiWrapper';
 
 function PositionCard(props) {
   return (
-    <div className="h-24 py-4 px-6 flex">
+    <div className="h-24 py-4 px-6 flex hover:bg-gray-100 cursor-pointer group">
       <div className="w-2/12">
-        <div className="flex justify-center text-5xl items-center h-full font-semibold text-white bg-gray-400 h-16 w-16">
+        <div
+          className="flex justify-center text-5xl items-center h-full 
+                     font-bold text-white bg-gray-300 h-16 w-16 group-hover:bg-indigo-300">
           {props.name ? props.name.substring(0, 1) : ""}
         </div>
       </div>
