@@ -9,9 +9,14 @@ const d3 = require('d3-array');
 class HistoryBrowser extends React.Component {
 
   constructor(props) {
+    // extract earliest date from data
+    const earliestDateMs = parseInt(Object.keys(Object.values(props.data)[0])[0])
+    const earliestDate = new Date(earliestDateMs)
+
     super(props);
     this.state = {
-      from: new Date(2019, 1, 1),
+      earliest: earliestDate,
+      from: earliestDate,
       to: new Date(),
       nrItems: 100,
       activeButton: "Max",
@@ -43,7 +48,7 @@ class HistoryBrowser extends React.Component {
   changeFromDate(daysAgo, activeName) {
     if (daysAgo === null) {
       this.setState({
-        from: "earliest",
+        from: this.state.earliest,
         activeButton: activeName,
       })
       return
@@ -69,13 +74,8 @@ class HistoryBrowser extends React.Component {
   getShownData() {
     var data;
     const history = this.reshapeData(this.props.data);
-    if (this.state.from !== "earliest") {
-      const truncationIndex = d3.bisectLeft(history[0]["data"].map(e => e.x), this.dateISO(this.state.from));
-      data = this.truncateData(history, truncationIndex);
-    }
-    else {
-      data = this.props.data;
-    }
+    const truncationIndex = d3.bisectLeft(history[0]["data"].map(e => e.x), this.dateISO(this.state.from));
+    data = this.truncateData(history, truncationIndex);
     return data
   }
 
@@ -103,8 +103,8 @@ class HistoryBrowser extends React.Component {
     const buttons = this.getButtonArray();
 
     return (
-      <div class="">
-        <div class="h-96">
+      <div class="h-4/5">
+        <div class="h-full">
           <AreaChart
             data={data}
           />
