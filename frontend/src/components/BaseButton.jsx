@@ -1,26 +1,24 @@
 import React from 'react';
 
 const BaseButton = (props) => {
-  var classes = "border py-3 px-4 ";
 
-  if (props.classes) {
-    classes += props.classes;
+  var customClasses = "border py-3 px-4 ";
+
+  let { active, classes, activeClasses, handleClick, ...rest } = props
+
+  if (classes) {
+    customClasses += classes;
   }
 
-  if (props.active && props.activeClasses) {
-    classes += props.activeClasses;
-  }
-
-  let handleClick = () => {};
-  if (props.handleClick) {
-    handleClick = () => props.handleClick()
+  if (active && activeClasses) {
+    customClasses += activeClasses;
   }
 
   return(
     <button
-      class={classes}
-      onClick={handleClick}
-      {...props}
+      class={customClasses}
+      onClick={handleClick ? handleClick : () => {}}
+      {...rest}
     >
       {props.text}
     </button>

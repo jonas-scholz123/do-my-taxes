@@ -14,14 +14,20 @@ class Header extends React.Component {
 
     const pageButtons = pages.map(
       //page => <a href="#" class= {page === active_page ? active_class : inactive_class}> {page} </a>
-      page => <Link to={"/" + page.toLowerCase()} class={page === activePage ? activeClass : inactiveClass}> {page} </Link>
+      page => 
+      <Link
+        to={"/" + page.toLowerCase()}
+        className={page === activePage ? activeClass : inactiveClass}
+        key={page.toLowerCase()}>
+          {page} 
+      </Link>
     );
 
 
     return (
       <nav class="flex h-20 w-full bg-white items-center shadow">
         <div class="container w-11/12 px-4 mx-auto md:flex md:items-center">
-            <p class="text-5xl text-indigo-700 font-bold tracking-tighter">Taxify</p>
+            <p className="text-5xl text-indigo-700 font-bold tracking-tighter">Taxify</p>
           <div class="hidden md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
             {pageButtons}
           </div>

@@ -37,6 +37,7 @@ function PositionCards(props) {
 
   const cards = data.map(el =>
     <PositionCard
+      key={el.ticker}
       name={el.name}
       quantity={el.quantity}
       value={el.current_value_gbp}

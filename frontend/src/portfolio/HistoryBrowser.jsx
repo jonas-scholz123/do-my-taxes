@@ -89,6 +89,7 @@ class HistoryBrowser extends React.Component {
     return buttonValues.map(
       (val) =>
         <Button
+          key={val.name}
           text={val.name}
           handleClick={() => (this.changeFromDate(val.days, val.name))}
           active={val.name === this.state.activeButton}
