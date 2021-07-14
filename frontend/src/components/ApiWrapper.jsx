@@ -10,7 +10,7 @@ function withApiWrapper(WrappedComponent, apiUrl) {
   */
   return (props) => {
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -21,18 +21,18 @@ function withApiWrapper(WrappedComponent, apiUrl) {
           (result) => {
             console.log("found in API wrapper: ", result)
             setData(result)
-            setLoading(true)
+            setLoading(false)
           },
           (error) => {
             setError(error)
-            setLoading(true)
+            setLoading(false)
           }
         )
     }, []);
 
-    if (!loading) {
+    if (loading) {
       return (
-        <div>
+        <div class="w-full h-full flex items-center justify-center">
           <ClipLoader loading={loading} size={150} />
         </div>
       )
