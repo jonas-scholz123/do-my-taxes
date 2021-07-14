@@ -4,7 +4,7 @@ import Card from "./components/Card";
 import BarChart from "./portfolio/BarChart";
 import HistoryBrowser from './portfolio/HistoryBrowser';
 import PortfolioTable from './portfolio/PortfolioTable';
-import ApiWrapper from './components/ApiWrapper'
+import withApiWrapper from './components/ApiWrapper';
 import PositionCards from './portfolio/PositionCards'
 
 export default function Portfolio(props) {

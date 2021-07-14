@@ -1,8 +1,7 @@
 import React from 'react';
-import ApiWrapper from '../components/ApiWrapper'
+import withApiWrapper from '../components/ApiWrapper';
 
 function PositionCard(props) {
-  console.log("POSITION CARD: ", props)
   return (
     <div class="h-24 py-4 px-6 flex">
       <div class="w-2/12">
@@ -52,6 +51,8 @@ function PositionCards(props) {
   )
 }
 
-export default function WrappedPositionCards(props) {
+/*export default function WrappedPositionCards(props) {
   return <ApiWrapper content={PositionCards} apiUrl="http://localhost:5000/api/portfolio/snapshot/now"/>
-}
+}*/
+
+export default withApiWrapper(PositionCards, "http://localhost:5000/api/portfolio/snapshot/now")

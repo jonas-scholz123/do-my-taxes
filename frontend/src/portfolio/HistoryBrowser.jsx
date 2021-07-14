@@ -2,16 +2,16 @@ import React from 'react';
 import AreaChart from './AreaChart'
 import Button from '../components/BaseButton';
 import LoadingOrError from '../components/LoadingOrError';
+import withApiWrapper from '../components/ApiWrapper';
+
 const d3 = require('d3-array'); 
 
 
 class HistoryBrowser extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
-            isLoaded: false,
-            history: null,
             from: new Date(2019, 1, 1),
             to: new Date(),
             nrItems: 100,
@@ -39,30 +39,6 @@ class HistoryBrowser extends React.Component {
             newData.push(lineDict);
         }
         return newData;
-    }
-
-    componentDidMount() {
-        this.loadFromAPI()
-    }
-
-    loadFromAPI() {
-        fetch(this.props.apiURL)
-        .then(res => res.json())
-        .then(
-        (result) => {
-            this.setState({
-            isLoaded: true,
-            history: this.reshapeData(result),
-            });
-        },
-
-        (error) => {
-            this.setState({
-            isLoaded: true,
-            error
-            })
-        }
-        )
     }
 
     changeFromDate(daysAgo, activeName){
@@ -93,14 +69,13 @@ class HistoryBrowser extends React.Component {
 
     getShownData() {
         var data;
-        const history = this.state.history;
+        const history = this.reshapeData(this.props.data);
         if (this.state.from !== "earliest") {
             const truncationIndex = d3.bisectLeft(history[0]["data"].map(e => e.x), this.dateISO(this.state.from));
             data = this.truncateData(history, truncationIndex);
-            console.log(this.state.from)
         }
         else {
-            data = this.state.history;
+            data = this.props.data;
         }
         return data
     }
@@ -125,15 +100,6 @@ class HistoryBrowser extends React.Component {
 
     render() {
 
-        const {error, isLoaded } = this.state;
-        
-        if (error || !isLoaded){
-            return <LoadingOrError
-                error={error}
-                isLoaded={isLoaded}
-            />
-        }
-
         const data = this.getShownData();
         const buttons = this.getButtonArray();
 
@@ -154,4 +120,4 @@ class HistoryBrowser extends React.Component {
     }
 }
 
-export default HistoryBrowser;
+export default withApiWrapper(HistoryBrowser, "http://localhost:5000/api/portfolio/history");

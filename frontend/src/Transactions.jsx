@@ -5,11 +5,11 @@ import Table from "./components/Table";
 import Modal from "./transactions/NewTransactionModal";
 import Header from "./components/Header";
 import HighlightedTitle from "./components/HighlightedTitle";
+import TransactionTable from './transactions/TransactionTable';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router"
-
-
+import withApiWrapper from './components/ApiWrapper';
 
 function Transactions() {
   return (
@@ -98,11 +98,12 @@ class OpenTransactionsTable extends React.Component {
       )
     }
 
+    const WrappedTransactionTable = withApiWrapper(TransactionTable, this.props.apiURL)
+
     return (
       <div class="w-full">
           {/*We pass the key to reload the child component so that it fetches from api */}
-        <TransactionTable
-          apiURL={this.props.apiURL}
+        <WrappedTransactionTable
           bottomRightContent={<AddTransactionButton setModalOpen={(bool) => this.setModalOpen(bool)}/>}
           NoTransactionContent={<MissingAndButton setModalOpen={(bool) => this.setModalOpen(bool)}/>}
           key={this.state.nrReloads}
@@ -132,8 +133,10 @@ const ClosedTransactionsTable = (props) => {
       )
     }
 
+  const WrappedTransactionTable = withApiWrapper(TransactionTable, props.apiURL)
+
   return (
-    <TransactionTable
+    <WrappedTransactionTable
       NoTransactionContent={<NoTransactionText />}
       {...props}
       refresh={true}
@@ -141,123 +144,6 @@ const ClosedTransactionsTable = (props) => {
   )
 }
 
-class TransactionTable extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      transactions: [],
-      navigate: false,
-      navigateTo: null,
-      isLoaded: false,
-      nrRows: 0,
-      hideShowMore: false,
-      error: null
-    }
-  }
-
-  handleRowClick(id) {
-    this.setState({
-      navigate: true,
-      navigateTo: id.toString()
-    })
-  }
-
-  loadTransactions(apiURL) {
-
-    const initialNrRows = 5;
-
-    fetch(apiURL)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoaded: true,
-          transactions: result,
-          nrRows: Math.min(initialNrRows, result.length),
-          hideShowMore: result.length <= initialNrRows
-        });
-      },
-
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        })
-      }
-    )
-  }
-
-  handleShowMore() {
-    const rowIncrement = 10;
-
-    this.setState(prevState => ({
-        nrRows: Math.min(prevState.nrRows + rowIncrement, prevState.transactions.length),
-        hideShowMore: (prevState.nrRows + rowIncrement) >= prevState.transactions.length
-    }));
-  }
-
-  componentDidMount() {
-    this.loadTransactions(this.props.apiURL)
-  }
-
-  render() {
-    
-    const anyTransactions = this.state.transactions.length !== 0;
-
-    const TableAndButtons = ({ visible }) => {
-      if (!visible) {
-        return <div />
-      }
-      return (
-        <div class="w-full">
-          <div class="w-full justify-center">
-            <Table
-              content={this.state.transactions}
-              nrRows={this.state.nrRows}
-              keyHeader="id"
-              clickable={true}
-              onClick={(id) => this.handleRowClick(id)}
-            />
-          </div>
-
-          <div class="py-6 flex">
-            <div class="w-1/3" />
-            <div class="w-1/3">
-              <div class={"flex justify-center " + (this.state.hideShowMore ? "hidden" : "")}>
-                <ShowMoreButton onClick={() => this.handleShowMore()} />
-              </div>
-            </div>
-            {this.props.bottomRightContent}
-          </div>
-        </div>
-      )
-    }
-
-    if (this.state.navigate) {
-      return <Navigate to={this.state.navigateTo} push={true} />
-    }
-
-    if (this.state.error) {
-      return <div> Error; {this.state.error.message} </div>;
-    }
-
-    if (!this.state.isLoaded) {
-      return (
-        <div>
-          <ClipLoader loading={!this.state.isLoaded} size={150} />
-        </div>
-      )
-    }
-    return (
-      <div class="w-full">
-        <TableAndButtons visible={anyTransactions} />
-        {anyTransactions ? null : this.props.NoTransactionContent}
-      </div>
-    )
-  }
-
-}
 
 
 export default Transactions;
