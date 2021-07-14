@@ -30,6 +30,9 @@ const SingleTransaction = () => {
   if (!loaded) {
     return <ClipLoader loading={!loaded} size={150} />
   }
+
+  const isOpen = transaction["sell_date"] === null;
+
   return (
     <div className="flex justify-center">
       <div className="flex flex-wrap w-full justify-center">
@@ -39,7 +42,10 @@ const SingleTransaction = () => {
             classes="mt-6 mx-3 px-10 py-6 text-indigo-800 hover:bg-indigo-800 hover:text-white cursor-pointer"
             handleClick={() => setGoBack(true)}
           />
-          <Card content={<SellTransaction transaction={transaction} setGoBack={setGoBack} />} classes="mt-6 mx-3 py-6" />
+
+          {isOpen && <Card content={<SellTransaction transaction={transaction} setGoBack={setGoBack} />} classes="mt-6 mx-3 py-6" />}
+          {!isOpen && <Card content={<ReopenTransaction transaction={transaction} setGoBack={setGoBack} />} classes="mt-6 mx-3 py-6" />}
+
           <Card content={<DeleteTransaction setGoBack={setGoBack} id={transaction.id} />} classes="mt-6 mx-3 py-6" />
         </div>
         <Card content={<EditTransaction transaction={transaction} setGoBack={setGoBack} />} classes="m-6 md:w-5/12 py-6" />
@@ -125,6 +131,44 @@ const SellTransaction = ({ transaction, setGoBack }) => {
           </div>
         )}
       </Formik>
+    </div>
+  )
+}
+
+const ReopenTransaction = ({transaction, setGoBack}) => {
+
+
+  var openTransaction = {}
+  Object.assign(openTransaction, transaction)
+
+  openTransaction["sell_date"] = null
+  openTransaction["sell_price"] = null
+
+  const handleClick = () => {
+    axios.post('/transactions/edit', openTransaction)
+      .then(function (response) {
+        setGoBack(true)
+      })
+      .catch(function (error) {
+      });
+  }
+
+  return (
+    <div className="flex justify-center">
+      <div className="w-10/12">
+        <h1 className="text-4xl font-bold p-4"> Reopen Transaction </h1>
+        <div className="">
+          <button
+            className={` bg-indigo-600 text-white rounded-lg w-full p-3 text-base
+                      hover:bg-indigo-700 focus:outline-none focus:ring-2
+                      focus:ring-offset-2 focus:ring-indigo-500`}
+            onClick={handleClick}
+          >
+            Reopen
+          </button>
+
+        </div>
+      </div>
     </div>
   )
 }
