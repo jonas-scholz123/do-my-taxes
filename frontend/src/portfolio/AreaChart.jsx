@@ -4,10 +4,6 @@ import React from 'react';
 function AreaChart(props) {
     // these are the tailwind indigo shades 100, 300, 400, 500, 600, 700
     const colors = ['#E0E7FF', '#A5B4FC', '#818CF8', '#6366F1', '#4338CA', '#4F46E5', '#312E81']
-    var colorCounter = -1
-    const getColor = bar => {
-        colorCounter++ 
-        return colors[colorCounter]}
 
     return (
         <ResponsiveLine
@@ -37,12 +33,11 @@ function AreaChart(props) {
                 tickRotation: 0,
                 tickValues: 6,
                 format: (value) => {
-                    console.log(value.toLocaleString())
                     return "£ " + value.toLocaleString();
                 }
             }}
             enablePoints={false}
-            colors={getColor}
+            colors={colors}
 
             enablePointLabel={true}
             enableArea={true}
