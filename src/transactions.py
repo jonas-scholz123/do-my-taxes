@@ -160,6 +160,9 @@ class TransactionHandler(DBHandler):
         query = "SELECT MIN(buy_date) FROM transactions"
         return self.cursor.execute(query).fetchall()[0][0]
     
+    def backup(self, path):
+        return self.query_to_pandas("SELECT * FROM transactions").to_csv(path, index=False)
+    
     def edit_transaction(self, transaction_id, edited_transaction):
         transaction_dict = asdict(edited_transaction)
         keys = tuple(transaction_dict.keys())
@@ -184,8 +187,11 @@ class TransactionHandler(DBHandler):
 if __name__ == "__main__":
     handler = TransactionHandler()
 
+    #handler.backup("../data/dummy.csv")
+
     handler.reset_table()
-    handler.insert_csv_transactions(config.paths["transactions_fpath"])
+    #handler.insert_csv_transactions(config.paths["transactions_fpath"])
+    handler.insert_csv_transactions("../data/dummy.csv")
     handler.print_all()
 
 
