@@ -9,6 +9,8 @@ const d3 = require('d3-array');
 class HistoryBrowser extends React.Component {
 
   constructor(props) {
+
+    console.log("DATA: ", props.data)
     // extract earliest date from data
     const earliestDateMs = parseInt(Object.keys(Object.values(props.data)[0])[0])
     const earliestDate = new Date(earliestDateMs)
@@ -108,6 +110,7 @@ class HistoryBrowser extends React.Component {
         <div className="h-full">
           <AreaChart
             data={data}
+            colors={this.props.colors}
           />
         </div>
         <div className="flex justify-end">
@@ -120,4 +123,4 @@ class HistoryBrowser extends React.Component {
   }
 }
 
-export default withApiWrapper(HistoryBrowser, "http://localhost:5000/api/portfolio/history");
+export default HistoryBrowser;

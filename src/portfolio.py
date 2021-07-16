@@ -183,6 +183,20 @@ class Portfolio:
             tickers_in_category = transactions[transactions[groupby] == category]["ticker"].unique()
             category_history[category] = history[tickers_in_category].sum(axis=1)
         return category_history
+    
+    def ticker_history(self, ticker, start_date, end_date):
+        if start_date is None:
+            start_date = self.transaction_handler.fetch_earliest_transaction_date()
+        
+        if end_date is None:
+            tomorrow = datetime.now() + timedelta(days=1)
+            end_date = tomorrow.date().isoformat()
+        
+        price_history = yf.download(ticker, start=start_date, end=end_date, session=self.session)["Open"].copy()
+        price_history.fillna(method="ffill", inplace=True)
+
+        return price_history
+
 
     def history(self, start_date, end_date, groupby="ticker"):
         '''
@@ -301,5 +315,6 @@ if __name__ == "__main__":
     #portfolio.style()
     #print(portfolio.history("2018-01-01", "2021-07-01", columns="categories"))
     #portfolio.history("2018-01-01", "2021-07-01", columns="categories").to_json(orient="columns"))
+    portfolio.ticker_history("GOOG", None, None)
     hist = portfolio.history(None, None, groupby="ticker")
 # %%

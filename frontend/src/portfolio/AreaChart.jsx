@@ -2,8 +2,11 @@ import { ResponsiveLine } from '@nivo/line'
 import React from 'react';
 
 function AreaChart(props) {
+
+    const singleLine = props.data.length === 1
     // these are the tailwind indigo shades 100, 300, 400, 500, 600, 700
-    const colors = ['#E0E7FF', '#A5B4FC', '#818CF8', '#6366F1', '#4338CA', '#4F46E5', '#312E81']
+
+    console.log(props.data, singleLine)
 
     return (
         <ResponsiveLine
@@ -37,7 +40,7 @@ function AreaChart(props) {
                 }
             }}
             enablePoints={false}
-            colors={colors}
+            colors={props.colors}
 
             enablePointLabel={true}
             enableArea={true}

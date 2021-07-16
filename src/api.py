@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from requests.api import get
 from werkzeug.exceptions import MethodNotAllowed
+import pandas as pd
 
 from transactions import TransactionHandler, Transaction
 from portfolio import Portfolio
@@ -38,11 +40,26 @@ def get_portfolio_history():
     #start = request.args.get("start")
     #end = request.args.get("end")
     #print(f"fetching from {start} to {end}")
+    ticker = request.args.get("ticker")
+    if ticker is not None:
+        return get_ticker_history(ticker)
+
     df = portfolio.history(None, None, groupby="category").round(2)
     # for speed, limit to ~500 rows
     # n = max(1, int(df.shape[0]/500))
     # df = df.iloc[::n, :]
     return df.to_json(orient="columns")
+
+def get_ticker_history(ticker):
+    '''
+    Gets the portfolio history with two columns: ticker and all other items in the portfolio (="rest")
+    '''
+    df = portfolio.history(None, None)
+    emphasized_df = pd.DataFrame()
+    emphasized_df[ticker] = df[ticker].replace(0, None)
+    emphasized_df['rest'] = df.drop(ticker, axis=1).sum(axis=1)
+    print(emphasized_df)
+    return emphasized_df.to_json(orient="columns")
 
 @app.route('/api/portfolio/snapshot/now', methods=["GET"])
 @cross_origin()

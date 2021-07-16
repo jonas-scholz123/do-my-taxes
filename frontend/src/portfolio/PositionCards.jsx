@@ -3,7 +3,7 @@ import withApiWrapper from '../components/ApiWrapper';
 
 function PositionCard(props) {
   return (
-    <div className="h-24 py-4 px-6 flex hover:bg-gray-100 cursor-pointer group">
+    <div className="h-24 py-4 px-6 flex hover:bg-gray-100 cursor-pointer group" onClick={() => props.handleClick()}>
       <div className="w-2/12">
         <div
           className="flex justify-center text-5xl items-center h-full 
@@ -45,6 +45,7 @@ function PositionCards(props) {
       value={el.current_value_gbp}
       ticker={el.ticker}
       percentIncrease={el.percent_change}
+      handleClick={() => props.setDataSource("http://localhost:5000/api/portfolio/history?ticker=" + el.ticker)}
     />)
 
   return (
@@ -54,9 +55,5 @@ function PositionCards(props) {
     </div>
   )
 }
-
-/*export default function WrappedPositionCards(props) {
-  return <ApiWrapper content={PositionCards} apiUrl="http://localhost:5000/api/portfolio/snapshot/now"/>
-}*/
 
 export default withApiWrapper(PositionCards, "http://localhost:5000/api/portfolio/snapshot/now")
