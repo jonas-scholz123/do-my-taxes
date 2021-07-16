@@ -59,8 +59,8 @@ function AreaChart(props) {
                     <div className="p-3 border bg-white rounded-md grid">
                         <div className="font-semibold pb-2">Date: {slice.points[0].data.xFormatted} </div>
                         {summaries}
-                        <div className="border-t border-black py-2 flex justify-between">
-                            <strong className="px-3"> Total </strong> £{sum}
+                        <div className="border-t border-gray-500 text-gray-500 py-2 flex justify-between">
+                            <strong className="px-3 text-gray-500"> Total </strong> £{sum}
                         </div>
                     </div>
                 )
