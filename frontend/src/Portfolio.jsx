@@ -10,6 +10,7 @@ export default function Portfolio(props) {
 
   const [dataSource, setDataSource] = useState(portfolioUrl)
 
+  // these are the tailwind indigo shades 100, 300, 400, 500, 600, 700
   const colors = dataSource !== portfolioUrl
       ? ['#6366F1', '#E0E7FF']
       : ['#E0E7FF', '#A5B4FC', '#818CF8', '#6366F1', '#4338CA', '#4F46E5', '#312E81']

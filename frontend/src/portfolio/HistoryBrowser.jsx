@@ -1,7 +1,6 @@
 import React from 'react';
 import AreaChart from './AreaChart'
 import Button from '../components/BaseButton';
-import withApiWrapper from '../components/ApiWrapper';
 
 const d3 = require('d3-array');
 
@@ -10,7 +9,6 @@ class HistoryBrowser extends React.Component {
 
   constructor(props) {
 
-    console.log("DATA: ", props.data)
     // extract earliest date from data
     const earliestDateMs = parseInt(Object.keys(Object.values(props.data)[0])[0])
     const earliestDate = new Date(earliestDateMs)

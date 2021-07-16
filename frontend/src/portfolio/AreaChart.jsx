@@ -3,11 +3,6 @@ import React from 'react';
 
 function AreaChart(props) {
 
-    const singleLine = props.data.length === 1
-    // these are the tailwind indigo shades 100, 300, 400, 500, 600, 700
-
-    console.log(props.data, singleLine)
-
     return (
         <ResponsiveLine
             data={props.data}
