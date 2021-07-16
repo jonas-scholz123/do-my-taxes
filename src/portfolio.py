@@ -212,10 +212,11 @@ class Portfolio:
                                            between start_date and end_date
         '''
 
-        #TODO: validate that at least 7 days, or handle errors, because weekend -> no data
-
+        # need to shift by one day to get correct data, not sure why yfinance api works this way.
         if start_date is None:
             start_date = self.transaction_handler.fetch_earliest_transaction_date()
+            start_date_plus_1 = datetime.strptime(start_date, "%Y-%m-%d") + timedelta(days=1)
+            start_date_plus_1 = start_date_plus_1.date().isoformat()
         
         if end_date is None:
             tomorrow = datetime.now() + timedelta(days=1)
@@ -232,7 +233,7 @@ class Portfolio:
         while self.downloading:
             time.sleep(0.1)
         self.downloading = True
-        price_history = yf.download(tickers, start=start_date, end=end_date, session=self.session)["Open"].copy()
+        price_history = yf.download(tickers, start=start_date_plus_1, end=end_date, session=self.session)["Open"].copy()
         self.downloading = False
 
         for ticker in tickers:
