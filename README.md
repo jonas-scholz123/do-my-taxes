@@ -1,5 +1,11 @@
 # Taxify
 
+[Transactions Page](images/transactions.png)
+[Portfolio Page](images/portfolio.png)
+[Editing Transaction](images/single_transaction.png)
+[Modal](images/modal.png)
+
+
 ## What is it?
 It's a financial portfolio tracking app that allows you to input investment transactions that you have made and calculates your portfolio history.
 
