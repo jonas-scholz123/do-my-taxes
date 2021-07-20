@@ -1,9 +1,9 @@
 # Taxify
 
-[Transactions Page](images/transactions.png)
-[Portfolio Page](images/portfolio.png)
-[Editing Transaction](images/single_transaction.png)
-[Modal](images/modal.png)
+![Transactions Page](images/transactions.png)
+![Portfolio Page](images/portfolio.png)
+![Editing Transaction](images/single_transaction.png)
+![Modal](images/modal.png)
 
 
 ## What is it?
