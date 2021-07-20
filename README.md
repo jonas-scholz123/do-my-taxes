@@ -1,9 +1,14 @@
 # Taxify
 
-![Transactions Page](images/transactions.png)
-![Portfolio Page](images/portfolio.png)
-![Editing Transaction](images/single_transaction.png)
-![Modal](images/modal.png)
+<p float="left">
+  <img src="images/transactions.png" width="49%" />
+  <img src="images/portfolio.png" width="49%" /> 
+</p>
+
+<p float="left">
+  <img src="/images/single_transaction.png" width="49%" />
+  <img src="/images/modal.png" width="49%" />
+</p>
 
 
 ## What is it?
