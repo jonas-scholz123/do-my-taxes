@@ -24,13 +24,13 @@ We need to enable both the backend and the frontend.
 ### Frontend
 1. In another terminal `cd` into /frontend
 2. Install all packages using 
-```
-npm install
-```
+    ```
+    npm install
+    ```
 3. Start the frontend using
-```
-npm start
-```
+    ```
+    npm start
+    ```
 
 
 ## TODO:
