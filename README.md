@@ -32,6 +32,8 @@ We need to enable both the backend and the frontend.
     npm start
     ```
 
+You can now go to localhost:3000/transactions in your browser to check it out.
+
 
 ## TODO:
  - Make home page 
