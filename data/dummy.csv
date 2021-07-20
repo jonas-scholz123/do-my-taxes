@@ -1,0 +1,9 @@
+id,depot,name,ticker,category,quantity,account_currency,investment_currency,buy_price,sell_price,buy_date,sell_date
+1,Depot 1,Google,GOOG,US Equity,25.0,EUR,USD,1495.7,,2020-07-06,
+2,Depot 2,J.P. Morgan,JPM,US Equity,100.0,GBP,USD,127.1,,2021-01-01,
+3,Depot 3,Tesla,TSLA,US Equity,100.0,EUR,USD,274.3,,2020-07-07,
+4,Depot 2,FTSE 250 U.K. Equity,VMID.L,UK Equity,300.0,GBP,GBP,21.44,,2020-07-01,
+5,Depot 1,Gamestop,GME,Bets,500.0,EUR,USD,42.0,,2021-01-01,
+8,Depot 1,MSCI World,SPY,Developed Equity,100.0,GBP,USD,200.0,,2020-10-08,
+12,Depot 1,Google,GOOG,US Equity,14.0,EUR,EUR,14.0,,2021-07-06,
+14,Depot 1,Amazon,AMZN,Bets,14.0,GBP,USD,200.0,,2020-07-06,
