@@ -187,11 +187,8 @@ class TransactionHandler(DBHandler):
 if __name__ == "__main__":
     handler = TransactionHandler()
 
-    #handler.backup("../data/dummy.csv")
-
     handler.reset_table()
-    #handler.insert_csv_transactions(config.paths["transactions_fpath"])
-    handler.insert_csv_transactions("../data/dummy.csv")
+    handler.insert_csv_transactions(config.paths["init_transactions"])
     handler.print_all()
 
 
