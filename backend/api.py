@@ -58,7 +58,6 @@ def get_ticker_history(ticker):
     emphasized_df = pd.DataFrame()
     emphasized_df[ticker] = df[ticker].replace(0, None)
     emphasized_df['rest'] = df.drop(ticker, axis=1).sum(axis=1)
-    print(emphasized_df)
     return emphasized_df.to_json(orient="columns")
 
 @app.route('/api/portfolio/snapshot/now', methods=["GET"])
