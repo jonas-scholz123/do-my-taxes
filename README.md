@@ -53,3 +53,4 @@ You can now go to localhost:3000/transactions in your browser to check it out.
  - Infer investment currency from ticker
  - Implement position browser (click on position => graph adjusts to only that position)
  - Reopoen closed transaction
+ - Dockerise
