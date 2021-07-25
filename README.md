@@ -14,7 +14,13 @@
 ## What is it?
 It's a financial portfolio tracking app that allows you to input investment transactions that you have made and calculates your portfolio history.
 
-## How to run it?
+## How to run it (the easier way)
+If you have docker, you can just cd into the home directory and run
+    ```
+    docker-compose up
+    ```
+
+## How to run it (the harder way)
 We need to enable both the backend and the frontend.
 
 ### Backend
@@ -47,10 +53,10 @@ You can now go to localhost:3000/transactions in your browser to check it out.
 
 
 ## TODO:
- - Make home page 
- - Build Custom date range input for PotfolioBrowser 
- - Make tables frontend sortable
- - Infer investment currency from ticker
- - Implement position browser (click on position => graph adjusts to only that position)
- - Reopoen closed transaction
- - Dockerise
+ - [x] Reopoen closed transaction
+ - [x] Implement position browser (click on position => graph adjusts to only that position)
+ - [x] Dockerise
+ - [ ] Make home page 
+ - [ ] Build Custom date range input for PotfolioBrowser 
+ - [ ] Make tables frontend sortable
+ - [ ] Infer investment currency from ticker
